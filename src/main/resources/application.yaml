@@ -1,0 +1,17 @@
+server:
+  port: 9025
+
+spring:
+  datasource:
+    url: jdbc:mariadb://database-1.c0xi5suntsgb.us-west-1.rds.amazonaws.com:3306/Project 2
+    username: dariens
+    password: password
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
+    hibernate:
+      ddl-auto: create
+      
+ 
+  
