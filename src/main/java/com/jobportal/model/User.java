@@ -16,9 +16,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name="users")
 public class User {
@@ -64,6 +71,16 @@ public class User {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<User> followerList = new ArrayList<>();
 
-	
+	public User(String firstName, String lastName, String email, String username, String password, UserRole userRole,
+			Company companyId) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.userRole = userRole;
+		this.companyId = companyId;
+	}
 
 }
