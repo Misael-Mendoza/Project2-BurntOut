@@ -19,6 +19,10 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "Job_Posting")
 public class JobPosting {
@@ -29,13 +33,11 @@ public class JobPosting {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "poster_id")
+	@JsonIgnore
 	private User posterId;
 	
-	//TO IMPORT TAGS
-	//@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	//private List<Tags> tags;
-	
 	@Column (name = "date", nullable = false)
+	@JsonIgnore
 	private Timestamp date;
 	
 	@Column(name = "title", nullable = false)
@@ -46,14 +48,17 @@ public class JobPosting {
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "location_id")
+	@JsonIgnore
 	private Location locationId;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "industry_id")
+	@JsonIgnore
 	private Industry industryId;
 	
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
+	@JsonIgnore
 	private Company companyId;
 	
 	@OneToMany(mappedBy="postingId", fetch=FetchType.LAZY)
@@ -62,6 +67,31 @@ public class JobPosting {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Tag> tagsList = new ArrayList<>();
 
+	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
+			Industry industryId, Company companyId, List<Application> applicationList, List<Tag> tagsList) {
+		super();
+		this.posterId = posterId;
+		this.date = date;
+		this.title = title;
+		this.description = description;
+		this.locationId = locationId;
+		this.industryId = industryId;
+		this.companyId = companyId;
+		this.applicationList = applicationList;
+		this.tagsList = tagsList;
+	}
+
+	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
+			Industry industryId, Company companyId) {
+		super();
+		this.posterId = posterId;
+		this.date = date;
+		this.title = title;
+		this.description = description;
+		this.locationId = locationId;
+		this.industryId = industryId;
+		this.companyId = companyId;
+	}
 
 //	@Override
 //	public boolean equals(Object obj) {
