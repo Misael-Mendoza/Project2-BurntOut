@@ -74,7 +74,7 @@ public class User {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<User> followerList = new ArrayList<>();
 
-	public User(String firstName, String lastName, String email, String username, String password, UserRole userRole,
+	public User(String firstName, String lastName, String email, String username, String password, String salt, UserRole userRole,
 			Company companyId) {
 		super();
 		this.firstName = firstName;
@@ -82,6 +82,7 @@ public class User {
 		this.email = email;
 		this.username = username;
 		this.password = password;
+		this.salt = salt;
 		this.userRole = userRole;
 		this.companyId = companyId;
 	}
