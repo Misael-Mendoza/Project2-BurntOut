@@ -26,6 +26,7 @@ import com.jobportal.model.Location;
 import com.jobportal.model.User;
 import com.jobportal.service.ApplicationService;
 import com.jobportal.service.ApplicationStatusService;
+import com.jobportal.service.CompanyService;
 import com.jobportal.service.JobPostingService;
 import com.jobportal.service.UserService;
 
@@ -42,6 +43,7 @@ public class ApplicationController {
 	private ApplicationStatusService appStatusServ;
 	private UserService userServ;
 	private JobPostingService jpServ;
+
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Application>> getAllJobPostings() {
@@ -126,5 +128,7 @@ public class ApplicationController {
 			return new ResponseEntity<>("Application successfully deleted", HttpStatus.OK);
 		}
 	}
+	
+
 
 }
