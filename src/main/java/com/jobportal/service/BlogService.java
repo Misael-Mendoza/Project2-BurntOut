@@ -43,6 +43,7 @@ public class BlogService {
 	}
 	
 	public void updateBlog(Blog blog) {
+		
 		blogRepo.save(blog);
 	}
 	
