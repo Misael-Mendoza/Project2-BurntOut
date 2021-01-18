@@ -45,12 +45,14 @@ public class BlogController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Blog> getBlogById(@PathVariable("id") int id){
-		return new ResponseEntity<>(blogServ.getBlogById(id),HttpStatus.OK);
+		Blog blog = blogServ.getBlogById(id);
+		return blog != null ? new ResponseEntity<>(blog,HttpStatus.OK) :new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 	
 	@GetMapping("/title/{title}")
 	public ResponseEntity<Blog> getBlogByTitle(@PathVariable("title") String title){
-		return new ResponseEntity<>(blogServ.getBlogByTitle(title),HttpStatus.OK);
+		Blog blog = blogServ.getBlogByTitle(title);
+		return blog != null ? new ResponseEntity<>(blog,HttpStatus.OK) : new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 	
 //	@GetMapping("/date/{date}")
@@ -61,12 +63,10 @@ public class BlogController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteBlog(@PathVariable("id") int id){
 		Blog blog = blogServ.getBlogById(id);
-		blogServ.deleteBlog(blog);
-		return new ResponseEntity<>("Blog Deleted!",HttpStatus.GONE);
+		if (blog != null) {
+			blogServ.deleteBlog(blog);
+			return new ResponseEntity<>("Blog Deleted!",HttpStatus.GONE);
+		} 
+		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
-	
-	
-	
-	
-	
 }
