@@ -1,5 +1,6 @@
 package com.jobportal.controller;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,12 +35,16 @@ public class UserController {
 	@PostMapping()
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) {
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
-				(String)uMap.get("password"), (UserRole)uMap.get("userRole"), (Company)uMap.get("companyId"));
+				(String)uMap.get("password"), (String)uMap.get("salt"), (UserRole)uMap.get("userRole"), (Company)uMap.get("companyId"));
 		try {
+			userServ.encryptPassword(user.getUsername(), user.getPassword());
 			userServ.insertUser(user);
 		} catch(UserAlreadyExistsException e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("User with those details already exists", HttpStatus.NOT_ACCEPTABLE);
+		} catch(NoSuchAlgorithmException nsae) {
+			nsae.printStackTrace();
+			return new ResponseEntity<>("Encryption failed for some reason", HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
