@@ -1,5 +1,6 @@
 package com.jobportal.model;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,18 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-@Data
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Data
 @Entity
 @Table(name = "Job_Posting")
 public class JobPosting {
