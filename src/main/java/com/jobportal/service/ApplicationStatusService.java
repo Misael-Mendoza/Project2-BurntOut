@@ -24,5 +24,15 @@ public class ApplicationStatusService {
 			return null;
 		}
 	}
+	
+	public ApplicationStatus getStatusByStatus(String status) {
+		ApplicationStatus comp = statusRepo.findBystatus(status);
+		if(comp != null) {
+			return comp;
+		}else {
+			return null;
+		}
+	}
+	
 
 }

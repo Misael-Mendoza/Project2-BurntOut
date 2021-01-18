@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jobportal.exception.JobPostingNotFoundException;
 import com.jobportal.model.Application;
+import com.jobportal.model.ApplicationStatus;
 import com.jobportal.model.Company;
 import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
 import com.jobportal.model.Location;
 import com.jobportal.model.User;
 import com.jobportal.service.ApplicationService;
+import com.jobportal.service.ApplicationStatusService;
 import com.jobportal.service.JobPostingService;
 import com.jobportal.service.UserService;
 
@@ -89,7 +91,7 @@ public class ApplicationController {
 	public ResponseEntity<String> insertApplication(@RequestBody LinkedHashMap appMap) throws NumberFormatException, JobPostingNotFoundException {
 		User user = userServ.getUserByUsername((String)appMap.get("username"));
 		JobPosting jp = jpServ.findByPrimaryKey(Integer.parseInt((String)appMap.get("postingId")));
-		ApplicationStatusService appStatus = appStatusServ.findByName("Pending");
+		ApplicationStatus appStatus = appStatusServ.getStatusByStatus("Pending");
 		
 		Application app = new Application(
 				user, 

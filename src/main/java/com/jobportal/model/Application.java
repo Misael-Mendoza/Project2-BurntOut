@@ -2,6 +2,7 @@ package com.jobportal.model;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "application")
 public class Application {
@@ -44,5 +55,18 @@ public class Application {
 	@JoinColumn(name="status_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private ApplicationStatus statusId;
+
+
+	public Application(User applicantId, JobPosting postingId, Timestamp appDate, Blob resume,
+			ApplicationStatus statusId) {
+		super();
+		this.applicantId = applicantId;
+		this.postingId = postingId;
+		this.appDate = appDate;
+		this.resume = resume;
+		this.statusId = statusId;
+	}
+	
+	
 
 }
