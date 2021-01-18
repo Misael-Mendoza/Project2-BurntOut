@@ -25,14 +25,22 @@ public class UserService {
 	
 	private UserRepository userRepo;
 	
-//	public boolean verifyUser() {		Still need to do research into salts and encryption as a whole
-//		return false;					
-//	}
+	public boolean verifyUser(String username, String password) throws NoSuchAlgorithmException {
+		boolean isVerified = false;
+		User userCheck = userRepo.findByUsername(username);
+		if(userCheck.getPassword().equals(Encrypt.generateHash(password, "SHA-256", Encrypt.hexStringToByteArray(userCheck.getSalt()))[0])) {
+			isVerified = true;
+		}
+		return isVerified;					
+	}
 	
-//	public String[] encryptPassword(String password, byte[] salt) throws NoSuchAlgorithmException {
-//		String[] hashAndSalt = Encrypt.generateHash(password, "SHA-256", salt);
-//		return hashAndSalt;
-//	}
+	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException {
+		User user = userRepo.findByUsername(username);
+		byte[] salt = Encrypt.createSalt();
+		String[] hashAndSalt = Encrypt.generateHash(password, "SHA-256", salt);
+		user.setPassword(hashAndSalt[0]);
+		user.setSalt(hashAndSalt[1]);
+	}
 	
 	/*----------------CRUD METHODS----------------*/
 	
