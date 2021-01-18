@@ -50,6 +50,9 @@ public class User {
 	@Column(name="password", nullable=false)
 	private String password;
 	
+	@Column (name = "salt")
+	private String salt;
+	
 	@JoinColumn(name="role_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private UserRole userRole;
