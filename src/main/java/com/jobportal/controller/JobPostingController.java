@@ -1,6 +1,7 @@
 package com.jobportal.controller;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -44,7 +45,14 @@ public class JobPostingController {
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
-		List<JobPosting> jpList = jpServ.getAllJobPostings();
+		List<JobPosting> originalJpList = jpServ.getAllJobPostings();
+		List<JobPosting> jpList = new ArrayList<>();
+		for (JobPosting jp : originalJpList) {
+			Location loc = jp.getLocationId();
+			String location = loc.getLocationName();
+			jp = new JobPosting(jp.getTitle(), jp.getDescription(), location);
+			jpList.add(jp);
+		}
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -62,9 +70,9 @@ public class JobPostingController {
 		}
 	}
 	
-	@GetMapping("/location/{locationId}")
-	public ResponseEntity<List<JobPosting>> getJobPostingByLocation(@PathVariable("locationId") int locationId) {
-		Location location = locServ.getLocationById(locationId);
+	@GetMapping("/location/{locationName}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByLocation(@PathVariable("locationName") String locationName) {
+		Location location = locServ.getLocationByName(locationName);
 		List<JobPosting> jpList = jpServ.getJobPostingsByLocationId(location);
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
