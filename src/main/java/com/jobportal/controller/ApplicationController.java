@@ -52,12 +52,12 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<String> getJobPostingBy(@PathVariable("id") int id) {
+	public ResponseEntity<Application> getJobPostingBy(@PathVariable("id") int id) {
 		Application app = appServ.getApplicationById(id);
 		if(app == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(app.toString(), HttpStatus.OK);
+			return new ResponseEntity<>(app, HttpStatus.OK);
 		}
 	}
 	
