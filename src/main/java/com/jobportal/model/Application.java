@@ -2,7 +2,6 @@ package com.jobportal.model;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,6 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "application")
 public class Application {
@@ -37,12 +37,12 @@ public class Application {
 	
 	@JoinColumn(name="applicant_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private User applicantId;
 	
-	
-
 	@JoinColumn(name="posting_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private JobPosting postingId;
 	
 	
@@ -54,6 +54,7 @@ public class Application {
 	
 	@JoinColumn(name="status_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private ApplicationStatus statusId;
 
 
@@ -66,7 +67,12 @@ public class Application {
 		this.resume = resume;
 		this.statusId = statusId;
 	}
-	
-	
 
+
+	@Override
+	public String toString() {
+		return "Application [applicationId=" + applicationId + ", applicantId=" + applicantId.getFirstName() + ", postingId="
+				+ postingId.getPostingId() + ", appDate=" + appDate + ", resume=" + resume + ", statusId=" + statusId.getStatus() + "]";
+	}
+	
 }

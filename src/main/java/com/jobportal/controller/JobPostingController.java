@@ -21,7 +21,10 @@ import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
 import com.jobportal.model.Location;
 import com.jobportal.model.User;
+import com.jobportal.service.CompanyService;
+import com.jobportal.service.IndustryService;
 import com.jobportal.service.JobPostingService;
+import com.jobportal.service.LocationService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -33,6 +36,9 @@ import lombok.NoArgsConstructor;
 public class JobPostingController {
 	
 	private JobPostingService jpServ;
+	private LocationService locServ;
+	private IndustryService indServ;
+	private CompanyService compServ;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
@@ -54,9 +60,10 @@ public class JobPostingController {
 		}
 	}
 	
-	@GetMapping("/location/{location}")
-	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("location") Location locationId) {
-		List<JobPosting> jpList = jpServ.getJobPostingsByLocationId(locationId);
+	@GetMapping("/location/{locationId}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByLocation(@PathVariable("locationId") int locationId) {
+		Location location = locServ.getLocationById(locationId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByLocationId(location);
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -64,9 +71,10 @@ public class JobPostingController {
 		}
 	}
 	
-	@GetMapping("/industry/{industry}")
-	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("industry") Industry industryId) {
-		List<JobPosting> jpList = jpServ.getJobPostingsByIndustryId(industryId);
+	@GetMapping("/industry/{industryId}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByIndustry(@PathVariable("industryId") int industryId) {
+		Industry industry = indServ.getIndustryById(industryId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByIndustryId(industry);
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -75,8 +83,9 @@ public class JobPostingController {
 	}
 	
 	@GetMapping("/company/{company}")
-	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("company") Company companyId) {
-		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(companyId);
+	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
+		Company company = compServ.getCompanyById(companyId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {

@@ -17,7 +17,7 @@ public class IndustryService {
 	private IndustryRepository indRepo;
 	
 	public Industry getIndustryById(int industryId) {
-		Industry industry = indRepo.findByindustryId(industryId);
+		Industry industry = indRepo.findByIndustryId(industryId);
 		if(industry != null) {
 			return industry;
 		}else {

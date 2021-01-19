@@ -2,6 +2,7 @@ package com.jobportal.controller;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -19,14 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobportal.exception.JobPostingNotFoundException;
 import com.jobportal.model.Application;
 import com.jobportal.model.ApplicationStatus;
-import com.jobportal.model.Company;
-import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
-import com.jobportal.model.Location;
 import com.jobportal.model.User;
 import com.jobportal.service.ApplicationService;
 import com.jobportal.service.ApplicationStatusService;
-import com.jobportal.service.CompanyService;
 import com.jobportal.service.JobPostingService;
 import com.jobportal.service.UserService;
 
@@ -43,7 +40,6 @@ public class ApplicationController {
 	private ApplicationStatusService appStatusServ;
 	private UserService userServ;
 	private JobPostingService jpServ;
-
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<Application>> getAllJobPostings() {
@@ -56,12 +52,12 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Application> getJobPostingBy(@PathVariable("id") int id) {
+	public ResponseEntity<String> getJobPostingBy(@PathVariable("id") int id) {
 		Application app = appServ.getApplicationById(id);
 		if(app == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(app, HttpStatus.OK);
+			return new ResponseEntity<>(app.toString(), HttpStatus.OK);
 		}
 	}
 	
@@ -128,7 +124,5 @@ public class ApplicationController {
 			return new ResponseEntity<>("Application successfully deleted", HttpStatus.OK);
 		}
 	}
-	
-
 
 }

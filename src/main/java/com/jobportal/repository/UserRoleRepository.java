@@ -6,6 +6,6 @@ import com.jobportal.model.UserRole;
 
 public interface UserRoleRepository extends JpaRepository<UserRole, Integer>{
 	
-	public UserRole findByuserRoleID(int userRoleID);
+	public UserRole findByUserRoleID(int userRoleID);
 	
 }

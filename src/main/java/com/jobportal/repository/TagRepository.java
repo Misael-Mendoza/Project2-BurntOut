@@ -6,6 +6,6 @@ import com.jobportal.model.Tag;
 
 public interface TagRepository extends JpaRepository<Tag, Integer>{
 
-	public Tag findBytagId(int tagId);
+	public Tag findByTagId(int tagId);
 	
 }

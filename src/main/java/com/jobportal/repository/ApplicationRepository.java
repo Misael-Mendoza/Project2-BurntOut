@@ -11,8 +11,8 @@ import com.jobportal.model.User;
 public interface ApplicationRepository extends JpaRepository<Application, Integer>{
 	
 	public List<Application> findAll();
-	public Application findByApplicationId(int id);
-	public List<Application> findByApplicantId(User user);
-	public List<Application> findByPostingId(JobPosting posting);
+	public Application findByApplicationId(int applicationId);
+	public List<Application> findByApplicantId(User applicantId);
+	public List<Application> findByPostingId(JobPosting postingId);
 
 }

@@ -5,6 +5,6 @@ import com.jobportal.model.Industry;
 
 public interface IndustryRepository extends JpaRepository<Industry, Integer>{
 	
-	public Industry findByindustryId(int industryId);
+	public Industry findByIndustryId(int industryId);
 	
 }

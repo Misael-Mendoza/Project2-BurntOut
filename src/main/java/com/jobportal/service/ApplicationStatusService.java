@@ -17,7 +17,7 @@ public class ApplicationStatusService {
 	private ApplicationStatusRepository statusRepo;
 	
 	public ApplicationStatus getStatusById(int statusId) {
-		ApplicationStatus comp = statusRepo.findBystatusID(statusId);
+		ApplicationStatus comp = statusRepo.findByStatusId(statusId);
 		if(comp != null) {
 			return comp;
 		}else {
@@ -26,7 +26,7 @@ public class ApplicationStatusService {
 	}
 	
 	public ApplicationStatus getStatusByStatus(String status) {
-		ApplicationStatus comp = statusRepo.findBystatus(status);
+		ApplicationStatus comp = statusRepo.findByStatus(status);
 		if(comp != null) {
 			return comp;
 		}else {

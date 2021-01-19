@@ -25,12 +25,12 @@ public class ApplicationService {
 		return appRepo.findAll();
 	}
 	
-	public Application getApplicationById(int id) {
-		return appRepo.getOne(id);
+	public Application getApplicationById(int applicationId) {
+		return appRepo.getOne(applicationId);
 	}
 	
-	public List<Application> getApplicationByApplicantId(User userId) {
-		return appRepo.findByApplicantId(userId);
+	public List<Application> getApplicationByApplicantId(User applicantId) {
+		return appRepo.findByApplicantId(applicantId);
 	}
 	
 	public List<Application> getApplicationByPostingId(JobPosting postingId) {

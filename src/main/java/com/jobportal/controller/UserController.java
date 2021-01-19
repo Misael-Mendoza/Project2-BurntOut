@@ -1,7 +1,6 @@
 package com.jobportal.controller;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -19,6 +18,8 @@ import com.jobportal.exception.UserAlreadyExistsException;
 import com.jobportal.model.Company;
 import com.jobportal.model.User;
 import com.jobportal.model.UserRole;
+import com.jobportal.service.CompanyService;
+import com.jobportal.service.UserRoleService;
 import com.jobportal.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -31,6 +32,8 @@ import lombok.NoArgsConstructor;
 public class UserController {
 	
 	private UserService userServ;
+	private UserRoleService userRoleServ;
+	private CompanyService compServ;
 	
 	@PostMapping()
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) {
@@ -80,8 +83,9 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/userRole/{userRole}")
-	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("userRole") UserRole userRole) {
+	@GetMapping("/userRole/{userRoleId}")
+	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("userRoleId") int userRoleId) {
+		UserRole userRole = userRoleServ.getRoleById(userRoleId);
 		List<User> userList = userServ.getUsersByRole(userRole);
 		if(userList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -90,8 +94,9 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/company/{company}")
-	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("company") Company company) {
+	@GetMapping("/company/{companyId}")
+	public ResponseEntity<List<User>> getUsersByCompany(@PathVariable("companyId") int companyId) {
+		Company company = compServ.getCompanyById(companyId);
 		List<User> userList = userServ.getUsersByCompany(company);
 		if(userList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);

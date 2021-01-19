@@ -13,9 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jobportal.model.Application;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +30,7 @@ public class ApplicationStatus {
 		@Id
 		@Column(name = "status_id")
 		@GeneratedValue(strategy = GenerationType.AUTO)
-		private int statusID;
+		private int statusId;
 
 		@Column(name = "status_name", nullable=false)
 		private String status;

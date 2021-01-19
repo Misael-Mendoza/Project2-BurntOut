@@ -17,7 +17,7 @@ public class TagService {
 	private TagRepository tagRepo;
 	
 	public Tag getTagById(int tagId) {
-		Tag comp = tagRepo.findBytagId(tagId);
+		Tag comp = tagRepo.findByTagId(tagId);
 		if(comp != null) {
 			return comp;
 		}else {
