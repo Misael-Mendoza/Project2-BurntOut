@@ -8,7 +8,7 @@ import com.jobportal.model.Location;
 
 public interface LocationRepository extends JpaRepository<Location, Integer> {
 	
-	public Location findBylocationId(int locationId);
+	public Location findByLocationId(int locationId);
 
 
 }

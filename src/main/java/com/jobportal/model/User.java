@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,23 +57,29 @@ public class User {
 	
 	@JoinColumn(name="role_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private UserRole userRole;
 	
 	@JoinColumn(name="company_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private Company companyId;
 	
 	
 	@OneToMany(mappedBy="ownerId", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Blog> blogList = new ArrayList<>();
 	
 	@OneToMany(mappedBy="applicantId", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Application> applicationList = new ArrayList<>();
 	
 	@OneToMany(mappedBy="posterId", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<JobPosting> jobPostingList = new ArrayList<>();
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<User> followerList = new ArrayList<>();
 
 	public User(String firstName, String lastName, String email, String username, String password, String salt, UserRole userRole,

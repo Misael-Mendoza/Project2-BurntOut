@@ -18,7 +18,7 @@ public class CompanyService {
 	private CompanyRepository comRepo;
 	
 	public Company getCompanyById(int companyId) {
-		Company comp = comRepo.findBycompanyId(companyId);
+		Company comp = comRepo.findByCompanyId(companyId);
 		if(comp != null) {
 			return comp;
 		}else {

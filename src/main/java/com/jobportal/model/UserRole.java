@@ -39,6 +39,7 @@ public class UserRole {
 	private String userRole;
 	
 	@OneToMany(mappedBy="userRole", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<User> userList = new ArrayList<User>();
 	
 }

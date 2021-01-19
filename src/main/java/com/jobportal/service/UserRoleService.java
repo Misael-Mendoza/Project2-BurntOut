@@ -19,7 +19,7 @@ public class UserRoleService {
 	private UserRoleRepository userRoleRepo;
 	
 	public UserRole getRoleById(int userRoleID) {
-		UserRole userRole = userRoleRepo.findByuserRoleID(userRoleID);
+		UserRole userRole = userRoleRepo.findByUserRoleID(userRoleID);
 		if(userRole != null) {
 			return userRole;
 		}else {

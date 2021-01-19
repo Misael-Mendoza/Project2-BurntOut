@@ -6,6 +6,6 @@ import com.jobportal.model.Company;
 
 public interface CompanyRepository extends JpaRepository<Company, Integer>{
 
-	public Company findBycompanyId(int comapnyId);
+	public Company findByCompanyId(int comapnyId);
 	
 }

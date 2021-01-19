@@ -18,7 +18,7 @@ public class LocationService {
 	private LocationRepository locRepo;
 
 	public Location getLocationById(int locationId) {
-		Location loc = locRepo.findBylocationId(locationId);
+		Location loc = locRepo.findByLocationId(locationId);
 		if(loc != null) {
 			return loc;
 		}else {
