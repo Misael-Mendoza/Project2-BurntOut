@@ -35,7 +35,7 @@ public class UserController {
 	private UserRoleService userRoleServ;
 	private CompanyService compServ;
 	
-	@PostMapping()
+	@PostMapping("/newuser")
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) {
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
 				(String)uMap.get("password"), (String)uMap.get("salt"), (UserRole)uMap.get("userRole"), (Company)uMap.get("companyId"));
@@ -51,6 +51,27 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
+		String username = (String)uMap.get("username");
+		String password = (String)uMap.get("password");
+		boolean isVerified = false;
+		if(userServ.getUserByUsername(username)==null) {
+			System.out.println("User does not exist");
+		}
+		try {
+			isVerified = userServ.verifyUser(username, password);
+		} catch(NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		if(isVerified) {
+			//Logic for setting session
+			return new ResponseEntity<>("User: "+username+" successfully verified", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("User: "+username+" unable to be verified", HttpStatus.NOT_ACCEPTABLE);
+		}
 	}
 	
 	@GetMapping("/all")
@@ -106,3 +127,4 @@ public class UserController {
 	}
 	
 }
+
