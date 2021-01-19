@@ -26,6 +26,12 @@ public class LocationService {
 		}
 	}
 	
-	
-	
+	public Location getLocationByName(String locationName) {
+		Location loc = locRepo.findByLocationName(locationName);
+		if(loc != null) {
+			return loc;
+		}else {
+			return null;
+		}
+	}
 }

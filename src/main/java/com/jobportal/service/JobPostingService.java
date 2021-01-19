@@ -1,5 +1,6 @@
 package com.jobportal.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
 import com.jobportal.model.Location;
 import com.jobportal.repository.JobPostingRepository;
+import com.jobportal.repository.LocationRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobPostingService {
 	private JobPostingRepository jpRepo;
+	private LocationRepository locRepo;
 	
 	public List<JobPosting> getAllJobPostings() {
 		return jpRepo.findAll();
