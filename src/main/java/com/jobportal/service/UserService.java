@@ -1,5 +1,6 @@
 package com.jobportal.service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import com.jobportal.model.Company;
 import com.jobportal.model.User;
 import com.jobportal.model.UserRole;
 import com.jobportal.repository.UserRepository;
+import com.jobportal.security.Encrypt;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,9 +25,22 @@ public class UserService {
 	
 	private UserRepository userRepo;
 	
-//	public boolean verifyUser() {		Still need to do research into salts and encryption as a whole
-//		return false;					
-//	}
+	public boolean verifyUser(String username, String password) throws NoSuchAlgorithmException {
+		boolean isVerified = false;
+		User userCheck = userRepo.findByUsername(username);
+		if(userCheck.getPassword().equals(Encrypt.generateHash(password, "SHA-256", Encrypt.hexStringToByteArray(userCheck.getSalt()))[0])) {
+			isVerified = true;
+		}
+		return isVerified;					
+	}
+	
+	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException {
+		User user = userRepo.findByUsername(username);
+		byte[] salt = Encrypt.createSalt();
+		String[] hashAndSalt = Encrypt.generateHash(password, "SHA-256", salt);
+		user.setPassword(hashAndSalt[0]);
+		user.setSalt(hashAndSalt[1]);
+	}
 	
 	/*----------------CRUD METHODS----------------*/
 	

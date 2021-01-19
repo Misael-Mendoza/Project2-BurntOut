@@ -1,5 +1,6 @@
 package com.jobportal.model;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jobportal.model.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
@@ -27,36 +39,7 @@ public class UserRole {
 	private String userRole;
 	
 	@OneToMany(mappedBy="userRole", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<User> userList = new ArrayList<User>();
-	
-	public UserRole() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public String getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
-	}
-
-//	public List<User> getUserList() {
-//		return userList;
-//	}
-//
-//	public void setUserList(List<User> userList) {
-//		this.userList = userList;
-//	}
-
-	public int getUserRoleID() {
-		return userRoleID;
-	}
-
-//	@Override
-//	public String toString() {
-//		return "UserRole [userRoleID=" + userRoleID + ", userRole=" + userRole + ", userList=" + userList + "]";
-//	}
-//	
 	
 }

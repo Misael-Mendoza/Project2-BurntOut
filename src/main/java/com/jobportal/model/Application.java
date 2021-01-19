@@ -14,6 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "application")
 public class Application {
@@ -26,12 +37,12 @@ public class Application {
 	
 	@JoinColumn(name="applicant_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private User applicantId;
 	
-	
-
 	@JoinColumn(name="posting_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private JobPosting postingId;
 	
 	
@@ -43,6 +54,25 @@ public class Application {
 	
 	@JoinColumn(name="status_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private ApplicationStatus statusId;
 
+
+	public Application(User applicantId, JobPosting postingId, Timestamp appDate, Blob resume,
+			ApplicationStatus statusId) {
+		super();
+		this.applicantId = applicantId;
+		this.postingId = postingId;
+		this.appDate = appDate;
+		this.resume = resume;
+		this.statusId = statusId;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Application [applicationId=" + applicationId + ", applicantId=" + applicantId.getFirstName() + ", postingId="
+				+ postingId.getPostingId() + ", appDate=" + appDate + ", resume=" + resume + ", statusId=" + statusId.getStatus() + "]";
+	}
+	
 }
