@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class UserController {
 	private UserRoleService userRoleServ;
 	private CompanyService compServ;
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/newuser")
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) {
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
@@ -53,11 +55,14 @@ public class UserController {
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/login")
 	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
 		String username = (String)uMap.get("username");
 		String password = (String)uMap.get("password");
+		
 		boolean isVerified = false;
+		
 		if(userServ.getUserByUsername(username)==null) {
 			System.out.println("User does not exist");
 		}
@@ -68,8 +73,10 @@ public class UserController {
 		}
 		if(isVerified) {
 			//Logic for setting session
+			System.out.println("you did it");
 			return new ResponseEntity<>("User: "+username+" successfully verified", HttpStatus.OK);
 		} else {
+			System.out.println("you kinda did it");
 			return new ResponseEntity<>("User: "+username+" unable to be verified", HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
