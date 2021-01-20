@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class UserController {
 	private UserRoleService userRoleServ;
 	private CompanyService compServ;
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/newuser")
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) {
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
@@ -53,6 +55,7 @@ public class UserController {
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin(origins = "*")
 	@PostMapping("/login")
 	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
 		String username = (String)uMap.get("username");
