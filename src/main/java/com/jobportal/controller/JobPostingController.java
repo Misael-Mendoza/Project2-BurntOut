@@ -102,7 +102,7 @@ public class JobPostingController {
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
 		JobPosting jp = new JobPosting((User)lhMap.get("posterId"), 
-				(Timestamp) lhMap.get("date"),
+				new Timestamp(System.currentTimeMillis()),
 				(String)lhMap.get("title"), 
 				(String)lhMap.get("description"),
 				(Location)lhMap.get("locationId"),
