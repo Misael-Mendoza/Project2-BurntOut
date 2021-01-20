@@ -107,6 +107,20 @@ public class JobPosting {
 
 	
 
+	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
+			Industry industryId, Company companyId) {
+		super();
+		this.posterId = posterId;
+		this.date = date;
+		this.title = title;
+		this.description = description;
+		this.locationId = locationId;
+		this.industryId = industryId;
+		this.companyId = companyId;
+	}
+
+	
+
 //	@Override
 //	public boolean equals(Object obj) {
 //		if (this == obj)
