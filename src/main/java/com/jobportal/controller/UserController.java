@@ -56,8 +56,8 @@ public class UserController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping(value="/login", produces="text/plain")
-	public ResponseEntity postLogin(@RequestBody LinkedHashMap uMap) {
+	@PostMapping("/login")
+	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
 		String username = (String)uMap.get("username");
 		String password = (String)uMap.get("password");
 		
@@ -74,7 +74,6 @@ public class UserController {
 		if(isVerified) {
 			//Logic for setting session
 			System.out.println("you did it");
-			
 			return new ResponseEntity<>("User: "+username+" successfully verified", HttpStatus.OK);
 		} else {
 			System.out.println("you kinda did it");
