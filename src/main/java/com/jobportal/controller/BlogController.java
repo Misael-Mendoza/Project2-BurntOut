@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,8 @@ import lombok.NoArgsConstructor;
 public class BlogController {
 	private BlogService blogServ;
 	
-	@PostMapping()
+	@CrossOrigin(origins = "*")
+	@PostMapping(value="/add")
 	public ResponseEntity<String> insertBlog(@RequestBody LinkedHashMap bMap){
 		Blog blog = new Blog((User)bMap.get("ownerId"), (String)bMap.get("blogTittle"), (Date)bMap.get("date"),(String)bMap.get("blogContent"));
 		blogServ.insertBlog(blog);

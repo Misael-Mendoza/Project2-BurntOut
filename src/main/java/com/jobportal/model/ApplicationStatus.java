@@ -1,6 +1,5 @@
 package com.jobportal.model;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,9 +35,9 @@ public class ApplicationStatus {
 
 		@Column(name = "status_name", nullable=false)
 		private String status;
-
 		
 		@OneToMany(mappedBy = "statusId", fetch = FetchType.LAZY)
+		@JsonIgnore
 		private List<Application> appList = new ArrayList<Application>();
 		
 		
