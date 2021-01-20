@@ -42,4 +42,11 @@ public class Company {
 	@OneToMany(mappedBy = "companyId", fetch = FetchType.LAZY)
 	private List<User> UserList = new ArrayList<>();
 
+	public Company(int companyId) {
+		super();
+		this.companyId = companyId;
+	}
+	
+	
+
 }

@@ -96,4 +96,11 @@ public class User {
 		this.companyId = companyId;
 	}
 
+	public User(int userId) {
+		super();
+		this.userId = userId;
+	}
+	
+	
+
 }
