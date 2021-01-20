@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,6 +26,7 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Entity
 @Table(name = "application")
 public class Application {
@@ -33,7 +35,6 @@ public class Application {
 	@Column(name = "application_id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int applicationId;
-
 	
 	@JoinColumn(name="applicant_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -45,23 +46,32 @@ public class Application {
 	@JsonIgnore
 	private JobPosting postingId;
 	
-	
 	@Column(name = "app_date", nullable=false)
 	private Timestamp appDate;
+	
 	@Column(name = "resume")
 	private Blob resume;
-
 	
 	@JoinColumn(name="status_id")
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private ApplicationStatus statusId;
 	
-	private String applicantName;
-	private String jobPostingTitle;
-	private String applicationStatus;
+	@Transient private String applicantName;
+	@Transient private String jobPostingTitle;
+	@Transient private String applicationStatus;
 
-
+	public int getApplicationId() {
+		setUpFields();
+		return applicationId;
+	}
+	
+	public void setUpFields() {
+		this.applicantName = applicantId.getFirstName() + " " + applicantId.getLastName();
+		this.jobPostingTitle = postingId.getTitle();
+		this.applicationStatus = statusId.getStatus();
+	}
+	
 	public Application(User applicantId, JobPosting postingId, Timestamp appDate, Blob resume,
 			ApplicationStatus statusId) {
 		super();
@@ -69,14 +79,6 @@ public class Application {
 		this.postingId = postingId;
 		this.appDate = appDate;
 		this.resume = resume;
-		this.statusId = statusId;
-	}
-
-
-	@Override
-	public String toString() {
-		return "Application [applicationId=" + applicationId + ", applicantId=" + applicantId.getFirstName() + ", postingId="
-				+ postingId.getPostingId() + ", appDate=" + appDate + ", resume=" + resume + ", statusId=" + statusId.getStatus() + "]";
 	}
 	
 }

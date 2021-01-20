@@ -44,11 +44,6 @@ public class JobPostingController {
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
 		List<JobPosting> jpList = jpServ.getAllJobPostings();
-		for (JobPosting jp : jpList) {
-			jp.setLocationName(jp.getLocationId().getLocationName());
-			jp.setCompanyName(jp.getCompanyId().getCompanyName());
-			jp.setIndustryName(jp.getIndustryId().getIndustryName());
-		}
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -102,7 +97,7 @@ public class JobPostingController {
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
 		JobPosting jp = new JobPosting((User)lhMap.get("posterId"), 
-				(Timestamp) lhMap.get("date"),
+				new Timestamp(System.currentTimeMillis()),
 				(String)lhMap.get("title"), 
 				(String)lhMap.get("description"),
 				(Location)lhMap.get("locationId"),

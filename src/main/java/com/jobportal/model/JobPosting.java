@@ -16,8 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.Transient;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -70,19 +69,27 @@ public class JobPosting {
 	private Company companyId;
 	
 	@OneToMany(mappedBy="postingId", fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Application> applicationList = new ArrayList<>();
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Tag> tagsList = new ArrayList<>();
 	
-	@Transient
-	private String locationName;
+	@Transient private String locationName;
+	@Transient private String companyName;
+	@Transient private String industryName;
 	
-	@Transient
-	private String companyName;
+	public int getPostingId() {
+		setUpFields();
+		return postingId;
+	}
 	
-	@Transient
-	private String industryName;
+	public void setUpFields() {
+		this.locationName = locationId.getLocationName();
+		this.industryName = industryId.getIndustryName();
+		this.companyName = companyId.getCompanyName();
+	}
 
 	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
 			Industry industryId, Company companyId, List<Application> applicationList, List<Tag> tagsList) {
@@ -98,6 +105,8 @@ public class JobPosting {
 		this.tagsList = tagsList;
 	}
 
+	
+
 	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
 			Industry industryId, Company companyId) {
 		super();
@@ -110,32 +119,6 @@ public class JobPosting {
 		this.companyId = companyId;
 	}
 
-	public JobPosting(String title, String description, String locationName) {
-		super();
-		this.title = title;
-		this.description = description;
-		this.locationName = locationName;
-	}
-
-	public JobPosting(String title, String description, String locationName, String companyName, String industryName) {
-		super();
-		this.title = title;
-		this.description = description;
-		this.locationName = locationName;
-		this.companyName = companyName;
-		this.industryName = industryName;
-	}
-
-	@Override
-	public String toString() {
-		return "{ \"postingId\":" + postingId + ", \"posterName\":\"" + posterId.getFirstName() + "\", \"date\":\"" + date + "\", \"title\":\"" + title
-				+ "\", \"description\":\"" + description + "\", \"locationName\":\"" + locationId.getLocationName() + "\", \"industryName\":\"" + industryId.getIndustryName()
-				+ "\", \"companyName\":\"" + companyId.getCompanyName() + "\", \"applicationList\":\"" + applicationList + "\", \"tagsList\":\"" + tagsList
-				+ "\" }";
-	}
-	
-	
-	
 	
 
 //	@Override
