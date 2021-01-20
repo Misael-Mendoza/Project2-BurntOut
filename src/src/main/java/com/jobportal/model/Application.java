@@ -56,10 +56,6 @@ public class Application {
 	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private ApplicationStatus statusId;
-	
-	private String applicantName;
-	private String jobPostingTitle;
-	private String applicationStatus;
 
 
 	public Application(User applicantId, JobPosting postingId, Timestamp appDate, Blob resume,

@@ -1,15 +1,12 @@
 package com.jobportal.controller;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,21 +31,18 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping(value = "/jobpostings")
-@CrossOrigin(origins = "*")
 @AllArgsConstructor(onConstructor=@___(@Autowired))
 @NoArgsConstructor
 public class JobPostingController {
 	
 	private JobPostingService jpServ;
+	private LocationService locServ;
+	private IndustryService indServ;
+	private CompanyService compServ;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
 		List<JobPosting> jpList = jpServ.getAllJobPostings();
-		for (JobPosting jp : jpList) {
-			jp.setLocationName(jp.getLocationId().getLocationName());
-			jp.setCompanyName(jp.getCompanyId().getCompanyName());
-			jp.setIndustryName(jp.getIndustryId().getIndustryName());
-		}
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -56,48 +50,48 @@ public class JobPostingController {
 		}
 	}
 	
-//	@GetMapping("/title/{title}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("title") String title) {
-//		List<JobPosting> jpList = jpServ.getJobPostingsByTitle(title);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/location/{locationName}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingByLocation(@PathVariable("locationName") String locationName) {
-//		Location location = locServ.getLocationByName(locationName);
-//		List<JobPosting> jpList = jpServ.getJobPostingsByLocationId(location);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/industry/{industryId}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingByIndustry(@PathVariable("industryId") int industryId) {
-//		Industry industry = indServ.getIndustryById(industryId);
-//		List<JobPosting> jpList = jpServ.getJobPostingsByIndustryId(industry);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/company/{company}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
-//		Company company = compServ.getCompanyById(companyId);
-//		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
+	@GetMapping("/title/{title}")
+	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("title") String title) {
+		List<JobPosting> jpList = jpServ.getJobPostingsByTitle(title);
+		if(jpList.size()==0) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(jpList, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/location/{locationId}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByLocation(@PathVariable("locationId") int locationId) {
+		Location location = locServ.getLocationById(locationId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByLocationId(location);
+		if(jpList.size()==0) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(jpList, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/industry/{industryId}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByIndustry(@PathVariable("industryId") int industryId) {
+		Industry industry = indServ.getIndustryById(industryId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByIndustryId(industry);
+		if(jpList.size()==0) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(jpList, HttpStatus.OK);
+		}
+	}
+	
+	@GetMapping("/company/{company}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
+		Company company = compServ.getCompanyById(companyId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
+		if(jpList.size()==0) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(jpList, HttpStatus.OK);
+		}
+	}
 	
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
