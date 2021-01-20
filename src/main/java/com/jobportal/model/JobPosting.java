@@ -76,12 +76,20 @@ public class JobPosting {
 	@JsonIgnore
 	private List<Tag> tagsList = new ArrayList<>();
 	
-	@Transient
-	private String locationName;
-	@Transient
-	private String companyName;
-	@Transient
-	private String industryName;
+	@Transient private String locationName;
+	@Transient private String companyName;
+	@Transient private String industryName;
+	
+	public int getPostingId() {
+		setUpFields();
+		return postingId;
+	}
+	
+	public void setUpFields() {
+		this.locationName = locationId.getLocationName();
+		this.industryName = industryId.getIndustryName();
+		this.companyName = companyId.getCompanyName();
+	}
 
 	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
 			Industry industryId, Company companyId, List<Application> applicationList, List<Tag> tagsList) {
@@ -97,44 +105,6 @@ public class JobPosting {
 		this.tagsList = tagsList;
 	}
 
-	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
-			Industry industryId, Company companyId) {
-		super();
-		this.posterId = posterId;
-		this.date = date;
-		this.title = title;
-		this.description = description;
-		this.locationId = locationId;
-		this.industryId = industryId;
-		this.companyId = companyId;
-	}
-
-	public JobPosting(String title, String description, String locationName) {
-		super();
-		this.title = title;
-		this.description = description;
-		this.locationName = locationName;
-	}
-
-	public JobPosting(String title, String description, String locationName, String companyName, String industryName) {
-		super();
-		this.title = title;
-		this.description = description;
-		this.locationName = locationName;
-		this.companyName = companyName;
-		this.industryName = industryName;
-	}
-
-	@Override
-	public String toString() {
-		return "{ \"postingId\":" + postingId + ", \"posterName\":\"" + posterId.getFirstName() + "\", \"date\":\"" + date + "\", \"title\":\"" + title
-				+ "\", \"description\":\"" + description + "\", \"locationName\":\"" + locationId.getLocationName() + "\", \"industryName\":\"" + industryId.getIndustryName()
-				+ "\", \"companyName\":\"" + companyId.getCompanyName() + "\", \"applicationList\":\"" + applicationList + "\", \"tagsList\":\"" + tagsList
-				+ "\" }";
-	}
-	
-	
-	
 	
 
 //	@Override
