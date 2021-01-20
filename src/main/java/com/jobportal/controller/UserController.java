@@ -56,7 +56,7 @@ public class UserController {
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping("/login")
+	@PostMapping(value = "/login", produces = "text/plain")
 	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
 		String username = (String)uMap.get("username");
 		String password = (String)uMap.get("password");

@@ -1,6 +1,5 @@
 package com.jobportal.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -75,8 +75,13 @@ public class JobPosting {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Tag> tagsList = new ArrayList<>();
 	
+	@Transient
 	private String locationName;
+	
+	@Transient
 	private String companyName;
+	
+	@Transient
 	private String industryName;
 
 	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
