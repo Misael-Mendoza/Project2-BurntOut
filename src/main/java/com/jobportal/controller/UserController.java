@@ -77,7 +77,7 @@ public class UserController {
 			return new ResponseEntity<>("User: "+username+" successfully verified", HttpStatus.OK);
 		} else {
 			System.out.println("you kinda did it");
-			return new ResponseEntity<>("User: "+username+" unable to be verified", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<>("Verification Failed", HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
