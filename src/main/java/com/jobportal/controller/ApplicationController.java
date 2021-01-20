@@ -44,11 +44,6 @@ public class ApplicationController {
 	@GetMapping("/all")
 	public ResponseEntity<List<Application>> getAllJobPostings() {
 		List<Application> appList = appServ.getAllApplications();
-		for (Application app : appList) {
-			app.setApplicantName(app.getApplicantId().getFirstName() + " " + app.getApplicantId().getLastName());
-			app.setJobPostingTitle(app.getPostingId().getTitle());
-			app.setApplicationStatus(app.getStatusId().getStatus());
-		}
 		if(appList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -98,7 +93,7 @@ public class ApplicationController {
 		
 		Application app = new Application(
 				user, 
-				jp ,
+				jp,
 				new Timestamp(System.currentTimeMillis()), 
 				(Blob)appMap.get("blobTest"),
 				appStatus);
