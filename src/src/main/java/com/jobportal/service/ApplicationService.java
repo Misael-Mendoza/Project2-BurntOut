@@ -26,7 +26,7 @@ public class ApplicationService {
 	}
 	
 	public Application getApplicationById(int applicationId) {
-		return appRepo.findByApplicationId(applicationId);
+		return appRepo.getOne(applicationId);
 	}
 	
 	public List<Application> getApplicationByApplicantId(User applicantId) {
