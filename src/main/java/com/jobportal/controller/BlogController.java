@@ -33,9 +33,13 @@ public class BlogController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value="/add")
 	public ResponseEntity<String> insertBlog(@RequestBody LinkedHashMap bMap){
-		Blog blog = new Blog((User)bMap.get("ownerId"), (String)bMap.get("blogTittle"), (Date)bMap.get("date"),(String)bMap.get("blogContent"));
+		Date blogDate = new Date(System.currentTimeMillis());
+		Blog blog = new Blog(
+				new User(1),
+				(String)bMap.get("title"),
+				blogDate,
+				(String)bMap.get("message"));
 		blogServ.insertBlog(blog);
-		
 		return new ResponseEntity<>("Blog Successfully Created!",HttpStatus.CREATED); 
 	}
 	
