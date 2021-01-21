@@ -38,4 +38,11 @@ public class Location {
 	
 	@OneToMany(mappedBy = "locationId", fetch = FetchType.LAZY)
 	private List <JobPosting> jobList = new ArrayList<>();
+
+	public Location(int locationId) {
+		super();
+		this.locationId = locationId;
+	}
+	
+	
 }

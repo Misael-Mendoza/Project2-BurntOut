@@ -24,7 +24,6 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "Company")
 public class Company {
@@ -42,4 +41,14 @@ public class Company {
 	@OneToMany(mappedBy = "companyId", fetch = FetchType.LAZY)
 	private List<User> UserList = new ArrayList<>();
 
+	public Company(int companyId) {
+		super();
+		this.companyId = companyId;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyName=" + companyName + "]";
+	}
+	
 }

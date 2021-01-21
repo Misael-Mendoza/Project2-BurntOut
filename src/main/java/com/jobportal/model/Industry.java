@@ -38,6 +38,11 @@ public class Industry {
 	
 	@OneToMany(mappedBy = "industryId", fetch = FetchType.LAZY)
 	private List <JobPosting> jobList = new ArrayList<>();
-	
 
+	public Industry(int industryId) {
+		super();
+		this.industryId = industryId;
+	}
+	
+	
 }

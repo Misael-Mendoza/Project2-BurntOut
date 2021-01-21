@@ -15,21 +15,18 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name="users")
 public class User {
@@ -82,18 +79,46 @@ public class User {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private List<User> followerList = new ArrayList<>();
+	
+	@Transient String userRoleName;
+	@Transient String companyName;
+	
+	public int getUserId() {
+		setUpFields();
+		return userId;
+	}
 
-	public User(String firstName, String lastName, String email, String username, String password, String salt, UserRole userRole,
+	public User(String firstName, String lastName, String email, String username, String password, String salt,  UserRole userRole,
 			Company companyId) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.username = username;
-		this.password = password;
 		this.salt = salt;
+		this.password = password;
 		this.userRole = userRole;
 		this.companyId = companyId;
+		this.userRoleName = userRole.getUserRole();
+		this.companyName = companyId.getCompanyName();
 	}
+
+	public User(int userId) {
+		super();
+		this.userId = userId;
+	}
+	
+	public void setUpFields() {
+		this.userRoleName = userRole.getUserRole();
+		this.companyName = companyId.getCompanyName();
+	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", username=" + username + ", password=" + password + ", userRoleName=" + userRoleName
+				+ ", companyName=" + companyName + "]";
+	}
+	
 
 }

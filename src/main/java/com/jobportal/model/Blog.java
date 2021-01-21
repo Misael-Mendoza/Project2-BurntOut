@@ -36,7 +36,7 @@ public class Blog {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int blogId;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name="owner_id")
 	@JsonIgnore
 	private User ownerId;
