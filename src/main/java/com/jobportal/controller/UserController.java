@@ -57,14 +57,14 @@ public class UserController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping("/login")
-	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
+	public ResponseEntity<User> postLogin(@RequestBody LinkedHashMap uMap) {
 		String username = (String)uMap.get("username");
 		String password = (String)uMap.get("password");
 		
 		boolean isVerified = false;
 		
 		if(userServ.getUserByUsername(username)==null) {
-			System.out.println("User does not exist");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		try {
 			isVerified = userServ.verifyUser(username, password);
@@ -74,10 +74,10 @@ public class UserController {
 		if(isVerified) {
 			//Logic for setting session
 			System.out.println("you did it");
-			return new ResponseEntity<>("User: "+username+" successfully verified", HttpStatus.OK);
+			return new ResponseEntity<>(userServ.getUserByUsername(username), HttpStatus.OK);
 		} else {
 			System.out.println("you kinda did it");
-			return new ResponseEntity<>("Verification Failed", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
