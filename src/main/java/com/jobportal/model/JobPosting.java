@@ -38,7 +38,7 @@ public class JobPosting {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int postingId;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "poster_id")
 	@JsonIgnore
 	private User posterId;
@@ -53,17 +53,17 @@ public class JobPosting {
 	@Column (name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "location_id")
 	@JsonIgnore
 	private Location locationId;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "industry_id")
 	@JsonIgnore
 	private Industry industryId;
 	
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
 	@JsonIgnore
 	private Company companyId;
@@ -103,6 +103,7 @@ public class JobPosting {
 		this.companyId = companyId;
 		this.applicationList = applicationList;
 		this.tagsList = tagsList;
+		setUpFields();
 	}
 
 	
@@ -117,6 +118,7 @@ public class JobPosting {
 		this.locationId = locationId;
 		this.industryId = industryId;
 		this.companyId = companyId;
+		setUpFields();
 	}
 
 	
