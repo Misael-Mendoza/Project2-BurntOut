@@ -24,7 +24,6 @@ import lombok.ToString;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name = "Company")
 public class Company {
@@ -46,7 +45,10 @@ public class Company {
 		super();
 		this.companyId = companyId;
 	}
-	
-	
 
+	@Override
+	public String toString() {
+		return "Company [companyId=" + companyId + ", companyName=" + companyName + "]";
+	}
+	
 }
