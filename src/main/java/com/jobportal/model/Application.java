@@ -79,6 +79,7 @@ public class Application {
 		this.postingId = postingId;
 		this.appDate = appDate;
 		this.resume = resume;
+		this.statusId = statusId;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.jobportal.controller;
 
 import java.sql.Blob;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobportal.exception.JobPostingNotFoundException;
 import com.jobportal.model.Application;
 import com.jobportal.model.ApplicationStatus;
+import com.jobportal.model.Blog;
 import com.jobportal.model.Company;
 import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
@@ -35,6 +38,7 @@ import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping(value = "/application")
+@CrossOrigin(origins = "*")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
 public class ApplicationController {
@@ -89,11 +93,11 @@ public class ApplicationController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<String> insertApplication(@RequestBody LinkedHashMap appMap) throws NumberFormatException, JobPostingNotFoundException {
+	public ResponseEntity<String> insertApplication(@RequestBody LinkedHashMap appMap) 
+			throws NumberFormatException, JobPostingNotFoundException {
 		User user = userServ.getUserByUsername((String)appMap.get("username"));
-		JobPosting jp = jpServ.findByPrimaryKey(Integer.parseInt((String)appMap.get("postingId")));
 		ApplicationStatus appStatus = appStatusServ.getStatusByStatus("Pending");
-		
+		JobPosting jp = jpServ.findByPrimaryKey(Integer.parseInt((String)appMap.get("posting_id")));
 		Application app = new Application(
 				user, 
 				jp,
@@ -104,21 +108,6 @@ public class ApplicationController {
 		
 		return new ResponseEntity<> ("Application successfully created", HttpStatus.CREATED);
 	}
-	
-	/*@PostMapping()
-	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
-		JobPosting jp = new JobPosting(
-				new User(Integer.parseInt((String)lhMap.get("poster_id"))), 
-				new Timestamp(System.currentTimeMillis()),
-				(String)lhMap.get("title"), 
-				(String)lhMap.get("description"),
-				new Location(Integer.parseInt((String)lhMap.get("location_id"))),
-				new Industry(Integer.parseInt((String)lhMap.get("industry_id"))),
-				new Company(Integer.parseInt((String)lhMap.get("company_id")))
-				);
-		jpServ.insertJobPosting(jp);
-		return new ResponseEntity<> ("Job Posting successfully created", HttpStatus.CREATED);
-	}*/
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteApplication(@PathVariable("id") Integer id) {
