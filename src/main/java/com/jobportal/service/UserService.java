@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.jobportal.exception.UserAlreadyExistsException;
 import com.jobportal.exception.UserNotFoundException;
+import com.jobportal.mail.RecoveryEmail;
 import com.jobportal.model.Company;
 import com.jobportal.model.User;
 import com.jobportal.model.UserRole;
@@ -41,6 +42,14 @@ public class UserService {
 		user.setPassword(hashAndSalt[0]);
 		user.setSalt(hashAndSalt[1]);
 		updateUser(user);
+	}
+	
+	public void sendRecoveryEmail(String email) {
+		try {
+			RecoveryEmail.sendRecoveryMail(email);			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*----------------CRUD METHODS----------------*/

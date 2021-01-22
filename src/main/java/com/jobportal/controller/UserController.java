@@ -137,5 +137,10 @@ public class UserController {
 		}
 	}
 	
+	@GetMapping("/recover/{email}")
+	public void getRecoveryEmail(@PathVariable("email") String email) {
+		userServ.sendRecoveryEmail(email);
+	}
+	
 }
 
