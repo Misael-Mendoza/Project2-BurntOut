@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobPostingService {
 	private JobPostingRepository jpRepo;
-	private LocationRepository locRepo;
 	
 	public List<JobPosting> getAllJobPostings() {
 		return jpRepo.findAll();

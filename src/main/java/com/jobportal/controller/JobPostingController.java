@@ -44,6 +44,7 @@ public class JobPostingController {
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
 		List<JobPosting> jpList = jpServ.getAllJobPostings();
+		System.out.println(jpList);
 		if(jpList.size()==0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {

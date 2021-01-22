@@ -34,12 +34,13 @@ public class UserService {
 		return isVerified;					
 	}
 	
-	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException {
+	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException, UserNotFoundException {
 		User user = userRepo.findByUsername(username);
 		byte[] salt = Encrypt.createSalt();
 		String[] hashAndSalt = Encrypt.generateHash(password, "SHA-256", salt);
 		user.setPassword(hashAndSalt[0]);
 		user.setSalt(hashAndSalt[1]);
+		updateUser(user);
 	}
 	
 	/*----------------CRUD METHODS----------------*/
@@ -55,11 +56,10 @@ public class UserService {
 	}
 	
 	public List<User> getAllUsers() {
-		List<User> userList = new ArrayList<>();
 		if(true) {	//need a test to see if current session is an administrator
-			userList = userRepo.findAll();
+			return userRepo.findAll();
 		}
-		return userList;
+		return null;
 	}
 	
 	public void updateUser(User user) throws UserNotFoundException {
