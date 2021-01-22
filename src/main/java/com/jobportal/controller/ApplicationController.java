@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jobportal.exception.JobPostingNotFoundException;
 import com.jobportal.model.Application;
 import com.jobportal.model.ApplicationStatus;
+import com.jobportal.model.Company;
+import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
+import com.jobportal.model.Location;
 import com.jobportal.model.User;
 import com.jobportal.service.ApplicationService;
 import com.jobportal.service.ApplicationStatusService;
@@ -99,8 +102,23 @@ public class ApplicationController {
 				appStatus);
 		appServ.insertApplication(app);
 		
-		return new ResponseEntity<> ("Job Posting successfully created", HttpStatus.CREATED);
+		return new ResponseEntity<> ("Application successfully created", HttpStatus.CREATED);
 	}
+	
+	/*@PostMapping()
+	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
+		JobPosting jp = new JobPosting(
+				new User(Integer.parseInt((String)lhMap.get("poster_id"))), 
+				new Timestamp(System.currentTimeMillis()),
+				(String)lhMap.get("title"), 
+				(String)lhMap.get("description"),
+				new Location(Integer.parseInt((String)lhMap.get("location_id"))),
+				new Industry(Integer.parseInt((String)lhMap.get("industry_id"))),
+				new Company(Integer.parseInt((String)lhMap.get("company_id")))
+				);
+		jpServ.insertJobPosting(jp);
+		return new ResponseEntity<> ("Job Posting successfully created", HttpStatus.CREATED);
+	}*/
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteApplication(@PathVariable("id") Integer id) {
