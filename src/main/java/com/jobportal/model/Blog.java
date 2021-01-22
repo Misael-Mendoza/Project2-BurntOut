@@ -51,14 +51,14 @@ public class Blog {
 	@Column(name="blog_content")
 	private String blogContent;
 	
-	@Transient private int owner;
+	@Transient private String owner;
 	public int getBlogId() {
 		setUpFields();
 		return blogId;
 	}
 	
 	public void setUpFields() {
-		this.owner = ownerId.getUserId();
+		this.owner = ownerId.getUsername();
 	}
 	
 	public Blog(User ownerId, String blogTitle, Date date, String blogContent) {
