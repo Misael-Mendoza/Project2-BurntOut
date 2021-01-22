@@ -121,7 +121,15 @@ public class JobPosting {
 		setUpFields();
 	}
 
+	@Override
+	public String toString() {
+		return "JobPosting [postingId=" + postingId + ", posterId=" + posterId.getFirstName() + " "
+				+ posterId.getLastName() + ", date=" + date + ", title=" + title + ", description=" + description
+				+ ", locationName=" + locationName + ", companyName=" + companyName + ", industryName=" + industryName
+				+ "]";
+	}
 	
+ 	
 
 //	@Override
 //	public boolean equals(Object obj) {

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobportal.exception.UserAlreadyExistsException;
+import com.jobportal.exception.UserNotFoundException;
 import com.jobportal.model.Company;
 import com.jobportal.model.User;
 import com.jobportal.model.UserRole;
@@ -37,41 +39,36 @@ public class UserController {
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping("/newuser")
-	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) {
-		System.out.println("UserRole string: " + (String)uMap.get("userRole"));
-		System.out.println("Company string: " + (String)uMap.get("company"));
+	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) throws UserNotFoundException {
 		UserRole userRole = userRoleServ.getRoleByName((String)uMap.get("userRole"));
-		System.out.println("UserRole: " + userRole);
 		Company company = compServ.getCompanyByName((String)uMap.get("company"));
-		System.out.println("Company: " + company);
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
-				(String)uMap.get("password"), "Hey", userRole, company);
-//		try {
-//			userServ.encryptPassword(user.getUsername(), user.getPassword());
-//			userServ.insertUser(user);
-//		} catch(UserAlreadyExistsException e) {
-//			e.printStackTrace();
-//			return new ResponseEntity<>("User with those details already exists", HttpStatus.NOT_ACCEPTABLE);
-//		} catch(NoSuchAlgorithmException nsae) {
-//			nsae.printStackTrace();
-//			return new ResponseEntity<>("Encryption failed for some reason", HttpStatus.NOT_ACCEPTABLE);
-//		}
-		System.out.println("Create user endpoint hit");
-		System.out.println("User: " + user);
+				(String)uMap.get("password"), null, userRole, company);
+
+		try {
+			userServ.insertUser(user);
+			userServ.encryptPassword(user.getUsername(), user.getPassword());
+		} catch(UserAlreadyExistsException e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("User with those details already exists", HttpStatus.NOT_ACCEPTABLE);
+		} catch(NoSuchAlgorithmException nsae) {
+			nsae.printStackTrace();
+			return new ResponseEntity<>("Encryption failed for some reason", HttpStatus.NOT_ACCEPTABLE);
+		}
 		
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
 	}
 	
 	@CrossOrigin(origins = "*")
-	@PostMapping(value = "/login", produces = "text/plain")
-	public ResponseEntity<String> postLogin(@RequestBody LinkedHashMap uMap) {
+	@PostMapping("/login")
+	public ResponseEntity<User> postLogin(@RequestBody LinkedHashMap uMap) {
 		String username = (String)uMap.get("username");
 		String password = (String)uMap.get("password");
 		
 		boolean isVerified = false;
 		
 		if(userServ.getUserByUsername(username)==null) {
-			System.out.println("User does not exist");
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
 		try {
 			isVerified = userServ.verifyUser(username, password);
@@ -81,10 +78,10 @@ public class UserController {
 		if(isVerified) {
 			//Logic for setting session
 			System.out.println("you did it");
-			return new ResponseEntity<>("User: "+username+" successfully verified", HttpStatus.OK);
+			return new ResponseEntity<>(userServ.getUserByUsername(username), HttpStatus.OK);
 		} else {
 			System.out.println("you kinda did it");
-			return new ResponseEntity<>("User: "+username+" unable to be verified", HttpStatus.NOT_ACCEPTABLE);
+			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 	
