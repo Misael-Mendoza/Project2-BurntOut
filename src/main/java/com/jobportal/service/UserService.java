@@ -34,12 +34,13 @@ public class UserService {
 		return isVerified;					
 	}
 	
-	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException {
+	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException, UserNotFoundException {
 		User user = userRepo.findByUsername(username);
 		byte[] salt = Encrypt.createSalt();
 		String[] hashAndSalt = Encrypt.generateHash(password, "SHA-256", salt);
 		user.setPassword(hashAndSalt[0]);
 		user.setSalt(hashAndSalt[1]);
+		updateUser(user);
 	}
 	
 	/*----------------CRUD METHODS----------------*/
