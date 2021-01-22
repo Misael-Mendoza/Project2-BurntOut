@@ -87,7 +87,7 @@ public class User {
 		setUpFields();
 		return userId;
 	}
-
+	
 	public User(String firstName, String lastName, String email, String username, String password, String salt,  UserRole userRole,
 			Company companyId) {
 		super();
@@ -110,7 +110,12 @@ public class User {
 	
 	public void setUpFields() {
 		this.userRoleName = userRole.getUserRole();
-		this.companyName = companyId.getCompanyName();
+		if(this.companyId == null) {
+			this.companyName = null;
+		}
+		else {
+			this.companyName = companyId.getCompanyName();
+		}
 	}
 
 	@Override

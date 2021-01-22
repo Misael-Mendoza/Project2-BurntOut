@@ -56,11 +56,10 @@ public class UserService {
 	}
 	
 	public List<User> getAllUsers() {
-		List<User> userList = new ArrayList<>();
 		if(true) {	//need a test to see if current session is an administrator
-			userList = userRepo.findAll();
+			return userRepo.findAll();
 		}
-		return userList;
+		return null;
 	}
 	
 	public void updateUser(User user) throws UserNotFoundException {

@@ -44,7 +44,6 @@ public class UserController {
 		Company company = compServ.getCompanyByName((String)uMap.get("company"));
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
 				(String)uMap.get("password"), null, userRole, company);
-		System.out.println("User: " + user);
 
 		try {
 			userServ.insertUser(user);
