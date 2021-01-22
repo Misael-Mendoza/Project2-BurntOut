@@ -43,6 +43,7 @@ public class BlogController {
 		return new ResponseEntity<>("Blog Successfully Created!",HttpStatus.CREATED); 
 	}
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping("/all")
 	public ResponseEntity<List<Blog>> getAllBlog(){
 		List<Blog> blogList = blogServ.getAllUsers();
