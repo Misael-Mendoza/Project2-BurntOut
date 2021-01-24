@@ -46,7 +46,7 @@ public class RecoveryEmail {
 			message.setFrom(new InternetAddress(myEmailAccount));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			message.setSubject("Recover Your BurntOut Account");
-			message.setText("Hello, this is a test");
+			message.setText("Hello, this is a test \nhttp://localhost:4200/passwordreset");
 			return message;
 		} catch(Exception e) {
 			e.printStackTrace();
