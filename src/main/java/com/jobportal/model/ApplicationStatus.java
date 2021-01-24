@@ -39,6 +39,16 @@ public class ApplicationStatus {
 		@OneToMany(mappedBy = "statusId", fetch = FetchType.LAZY)
 		@JsonIgnore
 		private List<Application> appList = new ArrayList<Application>();
+
+		public ApplicationStatus(int statusId) {
+			super();
+			this.statusId = statusId;
+		}
+
+		
+		
+		
+		
 		
 		
 }

@@ -12,7 +12,7 @@ import javax.mail.internet.MimeMessage;
 
 public class RecoveryEmail {
 	
-	public static void sendRecoveryMail(String recipient) throws Exception {
+	public static void sendRecoveryMail(String recipient, int securityCode) throws Exception {
 		
 		System.out.println("attempting to send recovery email");
 		
@@ -33,20 +33,20 @@ public class RecoveryEmail {
 			}
 		});
 		
-		Message message = prepareMessage(session, myEmailAccount, recipient);
+		Message message = prepareMessage(session, myEmailAccount, recipient, securityCode);
 		
 		Transport.send(message);
 		System.out.println("Message successfully sent");
 		
 	}
 
-	private static Message prepareMessage(Session session, String myEmailAccount, String recipient) {
+	private static Message prepareMessage(Session session, String myEmailAccount, String recipient, int securityCode) {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(myEmailAccount));
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			message.setSubject("Recover Your BurntOut Account");
-			message.setText("Hello, this is a test");
+			message.setText("Hello, this is a test \nhttp://localhost:4200/passwordreset \n"+securityCode);
 			return message;
 		} catch(Exception e) {
 			e.printStackTrace();

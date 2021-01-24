@@ -131,5 +131,52 @@ public class ApplicationController {
 			return new ResponseEntity<>("Application successfully deleted", HttpStatus.OK);
 		}
 	}
+	
+	@PostMapping("/approve/{id}")
+	public ResponseEntity<String> approveApplication(@PathVariable("id") Integer id) {
+		Application app = new Application();
+		try {
+			app = appServ.getApplicationById(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(app == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			try {
+				
+				app.setStatusId(appStatusServ.getStatusByStatus("Approved"));
+				appServ.updateApplication(app);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return new ResponseEntity<>("Application successfully updated", HttpStatus.OK);
+		}
+	}
+	
+	@PostMapping("/reject/{id}")
+	public ResponseEntity<String> denyApplication(@PathVariable("id") Integer id) {
+		Application app = new Application();
+		try {
+			app = appServ.getApplicationById(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(app == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			try {
+				app.setStatusId(appStatusServ.getStatusByStatus("Rejected"));
+				appServ.updateApplication(app);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return new ResponseEntity<>("Application successfully updated", HttpStatus.OK);
+		}
+	}
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,13 +77,50 @@ public class UserController {
 			e.printStackTrace();
 		}
 		if(isVerified) {
-			//Logic for setting session
 			System.out.println("you did it");
 			return new ResponseEntity<>(userServ.getUserByUsername(username), HttpStatus.OK);
 		} else {
 			System.out.println("you kinda did it");
 			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 		}
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/recover")
+	public ResponseEntity<String> postRecover(@RequestBody LinkedHashMap rMap) {
+		String email = (String)rMap.get("email");
+		try {
+			//making a security code for the recovery email and storing it in the salt column of the user's db record
+			String securityCode = String.valueOf(userServ.generateSecurityCode());
+			User resetUser = userServ.getUserByEmail(email);
+			resetUser.setSalt(securityCode);
+			userServ.updateUser(resetUser);
+			userServ.sendRecoveryEmail(email, Integer.parseInt(securityCode));
+			return new ResponseEntity<>("An email has been sent with instructions to reset your password", HttpStatus.OK);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("A problem occurred", HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PostMapping("/passwordreset")
+	public ResponseEntity<String> putPassReset(@RequestBody LinkedHashMap passMap) {
+		User user = userServ.getUserBySecurityCode((String)passMap.get("username"));
+		if(user!=null) {
+			user.setPassword((String)passMap.get("password"));
+			try {
+				userServ.encryptPassword(user.getUsername(), user.getPassword());
+				userServ.updateUser(user);		
+				return new ResponseEntity<>("Password successfully reset", HttpStatus.ACCEPTED);
+			}catch(Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>("An error has occured", HttpStatus.BAD_REQUEST);
+			}
+		}else {
+			return new ResponseEntity<>("Security Code unable to be verified", HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
 	@GetMapping("/all")
@@ -136,11 +174,5 @@ public class UserController {
 			return new ResponseEntity<>(userList, HttpStatus.OK);
 		}
 	}
-	
-	@GetMapping("/recover/{email}")
-	public void getRecoveryEmail(@PathVariable("email") String email) {
-		userServ.sendRecoveryEmail(email);
-	}
-	
 }
 

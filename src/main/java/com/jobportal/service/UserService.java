@@ -3,6 +3,7 @@ package com.jobportal.service;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,12 +45,22 @@ public class UserService {
 		updateUser(user);
 	}
 	
-	public void sendRecoveryEmail(String email) {
-		try {
-			RecoveryEmail.sendRecoveryMail(email);			
-		} catch(Exception e) {
-			e.printStackTrace();
+	public void sendRecoveryEmail(String email, int securityCode) throws UserNotFoundException {
+		if(userRepo.findByEmail(email)!=null) {
+			try {
+				RecoveryEmail.sendRecoveryMail(email, securityCode);
+			} catch(Exception e) {
+				e.printStackTrace();
+			} 
+		} else {
+			throw new UserNotFoundException();
 		}
+	}
+	
+	public int generateSecurityCode() {
+		Random rand = new Random();
+		int randInt = rand.nextInt(1_000_000);
+		return randInt;
 	}
 	
 	/*----------------CRUD METHODS----------------*/
@@ -96,7 +107,7 @@ public class UserService {
 	
 	public User getUserByUsername(String username) {
 		User user = null;
-		if(true) { 	//need a test to verify session here
+		if(true) { 	
 			user = userRepo.findByUsername(username);
 		}
 		return user;
@@ -104,15 +115,23 @@ public class UserService {
 	
 	public User getUserByEmail(String email) {
 		User user = null;
-		if(true) {	//need a test to verify session here
+		if(true) {	
 			user = userRepo.findByEmail(email);
+		}
+		return user;
+	}
+	
+	public User getUserBySecurityCode(String securityCode) {
+		User user = null;
+		if(securityCode.length()<15) {
+			user = userRepo.findBySalt(securityCode);
 		}
 		return user;
 	}
 	
 	public List<User> getUsersByRole(UserRole userRole) {
 		List<User> userList = new ArrayList<>();
-		if(true) {	//need a test to verify session here
+		if(true) {	
 			userList = userRepo.findByUserRole(userRole);
 		}
 		return userList;
@@ -120,7 +139,7 @@ public class UserService {
 	
 	public List<User> getUsersByCompany(Company company) {
 		List<User> userList = new ArrayList<>();
-		if(true) {	//you guessed it, need session verification
+		if(true) {	
 			userList = userRepo.findByCompanyId(company);
 		}
 		return userList;

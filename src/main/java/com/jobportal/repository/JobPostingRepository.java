@@ -3,6 +3,7 @@ package com.jobportal.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.jobportal.model.Company;
@@ -29,5 +30,6 @@ public interface JobPostingRepository extends JpaRepository <JobPosting, Integer
 	public List<JobPosting> findByIndustryId(Industry industryId);
 	public JobPosting findByPostingId(int id);
 	//public List<JobPosting> findByTagIn(List<Tag> tagsList);
-
+	
+	
 }

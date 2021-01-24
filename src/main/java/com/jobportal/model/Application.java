@@ -37,12 +37,12 @@ public class Application {
 	private int applicationId;
 	
 	@JoinColumn(name="applicant_id")
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private User applicantId;
 	
 	@JoinColumn(name="posting_id")
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private JobPosting postingId;
 	
@@ -53,7 +53,7 @@ public class Application {
 	private Blob resume;
 	
 	@JoinColumn(name="status_id")
-	@ManyToOne(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToOne(cascade=CascadeType.MERGE, fetch=FetchType.LAZY)
 	@JsonIgnore
 	private ApplicationStatus statusId;
 	
