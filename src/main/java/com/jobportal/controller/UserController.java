@@ -90,7 +90,12 @@ public class UserController {
 	public ResponseEntity<String> postRecover(@RequestBody LinkedHashMap rMap) {
 		String email = (String)rMap.get("email");
 		try {
-			userServ.sendRecoveryEmail(email);
+			//making a security code for the recovery email and storing it in the salt column of the user's db record
+			String securityCode = String.valueOf(userServ.generateSecurityCode());
+			User resetUser = userServ.getUserByEmail(email);
+			resetUser.setSalt(securityCode);
+			userServ.updateUser(resetUser);
+			userServ.sendRecoveryEmail(email, Integer.parseInt(securityCode));
 			return new ResponseEntity<>("An email has been sent with instructions to reset your password", HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -101,15 +106,19 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	@PostMapping("/passwordreset")
 	public ResponseEntity<String> putPassReset(@RequestBody LinkedHashMap passMap) {
-		User user = userServ.getUserByEmail((String)passMap.get("username"));
-		user.setPassword((String)passMap.get("password"));
-		try {
-			userServ.encryptPassword(user.getUsername(), user.getPassword());
-			userServ.updateUser(user);		
-			return new ResponseEntity<>("Password successfully reset", HttpStatus.ACCEPTED);
-		}catch(Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>("An error has occured", HttpStatus.BAD_REQUEST);
+		User user = userServ.getUserBySecurityCode((String)passMap.get("username"));
+		if(user!=null) {
+			user.setPassword((String)passMap.get("password"));
+			try {
+				userServ.encryptPassword(user.getUsername(), user.getPassword());
+				userServ.updateUser(user);		
+				return new ResponseEntity<>("Password successfully reset", HttpStatus.ACCEPTED);
+			}catch(Exception e) {
+				e.printStackTrace();
+				return new ResponseEntity<>("An error has occured", HttpStatus.BAD_REQUEST);
+			}
+		}else {
+			return new ResponseEntity<>("Security Code unable to be verified", HttpStatus.NOT_FOUND);
 		}
 		
 	}
