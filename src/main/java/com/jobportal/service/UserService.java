@@ -44,11 +44,15 @@ public class UserService {
 		updateUser(user);
 	}
 	
-	public void sendRecoveryEmail(String email) {
-		try {
-			RecoveryEmail.sendRecoveryMail(email);			
-		} catch(Exception e) {
-			e.printStackTrace();
+	public void sendRecoveryEmail(String email) throws UserNotFoundException {
+		if(userRepo.findByEmail(email)!=null) {
+			try {
+				RecoveryEmail.sendRecoveryMail(email);
+			} catch(Exception e) {
+				e.printStackTrace();
+			} 
+		} else {
+			throw new UserNotFoundException();
 		}
 	}
 	
