@@ -40,6 +40,7 @@ import lombok.NoArgsConstructor;
 public class JobPostingController {
 	
 	private JobPostingService jpServ;
+	private CompanyService compServ;
 	
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
@@ -84,16 +85,29 @@ public class JobPostingController {
 //		}
 //	}
 //	
-//	@GetMapping("/company/{company}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
-//		Company company = compServ.getCompanyById(companyId);
-//		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
+	
+	@GetMapping("/company/name/{companyName}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByCompanyName(@PathVariable("companyName") String companyName) {
+		Company company = compServ.getCompanyByName(companyName);
+		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
+		if(jpList.size()==0) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(jpList, HttpStatus.OK);
+		}
+	}
+	
+	
+	@GetMapping("/company/{companyId}")
+	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
+		Company company = compServ.getCompanyById(companyId);
+		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
+		if(jpList.size()==0) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(jpList, HttpStatus.OK);
+		}
+	}
 	
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
