@@ -27,7 +27,7 @@ public class CompanyService {
 	}
 	
 	public Company getCompanyByName(String companyName) {
-		Company comp = comRepo.findByCompanyName(companyName);
+		Company comp = comRepo.findBycompanyName(companyName);
 		if(comp != null) {
 			return comp;
 		}else {

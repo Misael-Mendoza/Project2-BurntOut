@@ -35,24 +35,24 @@ import lombok.NoArgsConstructor;
 @RestController
 @RequestMapping(value = "/jobpostings")
 @CrossOrigin(origins = "*")
-@AllArgsConstructor(onConstructor=@___(@Autowired))
+@AllArgsConstructor(onConstructor = @___(@Autowired))
 @NoArgsConstructor
 public class JobPostingController {
-	
+
 	private JobPostingService jpServ;
 	private CompanyService compServ;
-	
+
 	@GetMapping("/all")
-	public ResponseEntity<List<JobPosting>> getAllJobPostings(){
+	public ResponseEntity<List<JobPosting>> getAllJobPostings() {
 		List<JobPosting> jpList = jpServ.getAllJobPostings();
 		System.out.println(jpList);
-		if(jpList.size()==0) {
+		if (jpList.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(jpList, HttpStatus.OK);
 		}
 	}
-	
+
 //	@GetMapping("/title/{title}")
 //	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("title") String title) {
 //		List<JobPosting> jpList = jpServ.getJobPostingsByTitle(title);
@@ -85,24 +85,24 @@ public class JobPostingController {
 //		}
 //	}
 //	
-	
+
 	@GetMapping("/company/name/{companyName}")
-	public ResponseEntity<List<JobPosting>> getJobPostingByCompanyName(@PathVariable("companyName") String companyName) {
+	public ResponseEntity<List<JobPosting>> getJobPostingByCompanyName(
+			@PathVariable("companyName") String companyName) {
 		Company company = compServ.getCompanyByName(companyName);
 		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
-		if(jpList.size()==0) {
+		if (jpList.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(jpList, HttpStatus.OK);
 		}
 	}
-	
-	
+
 	@GetMapping("/company/{companyId}")
 	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
 		Company company = compServ.getCompanyById(companyId);
 		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
-		if(jpList.size()==0) {
+		if (jpList.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(jpList, HttpStatus.OK);
@@ -111,19 +111,16 @@ public class JobPostingController {
 	
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
-		JobPosting jp = new JobPosting(
-				new User(Integer.parseInt((String)lhMap.get("poster_id"))), 
-				new Timestamp(System.currentTimeMillis()),
-				(String)lhMap.get("title"), 
-				(String)lhMap.get("description"),
-				new Location(Integer.parseInt((String)lhMap.get("location_id"))),
-				new Industry(Integer.parseInt((String)lhMap.get("industry_id"))),
-				new Company(Integer.parseInt((String)lhMap.get("company_id")))
-				);
+		System.out.println("Hitting");
+		JobPosting jp = new JobPosting(new User((int)lhMap.get("poster_id")),
+				new Timestamp(System.currentTimeMillis()), (String) lhMap.get("title"),
+				(String) lhMap.get("description"), new Location(Integer.parseInt((String) lhMap.get("location_id"))),
+				new Industry(Integer.parseInt((String) lhMap.get("industry_id"))),
+				new Company((int)lhMap.get("company_id")));
 		jpServ.insertJobPosting(jp);
-		return new ResponseEntity<> ("Job Posting successfully created", HttpStatus.CREATED);
+		return new ResponseEntity<>("Job Posting successfully created", HttpStatus.CREATED);
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteJobPosting(@PathVariable("id") Integer id) {
 		JobPosting jp = new JobPosting();
@@ -133,7 +130,7 @@ public class JobPostingController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(jp == null) {
+		if (jp == null) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			try {
@@ -143,6 +140,18 @@ public class JobPostingController {
 				e.printStackTrace();
 			}
 			return new ResponseEntity<>("Job Posting successfully deleted", HttpStatus.OK);
+		}
+	}
+
+	@GetMapping("/company-id/{companyName}")
+	public ResponseEntity<Integer> getCompanyIdByCompanyName(
+			@PathVariable("companyName") String companyName) {
+		Company company = compServ.getCompanyByName(companyName);
+		if (company==null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			
+		} else {
+			return new ResponseEntity<>(company.getCompanyId(), HttpStatus.OK);
 		}
 	}
 }

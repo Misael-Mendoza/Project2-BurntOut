@@ -77,10 +77,10 @@ public class UserController {
 			e.printStackTrace();
 		}
 		if(isVerified) {
-			System.out.println("you did it");
+			System.out.println("User Verification Successful");
 			return new ResponseEntity<>(userServ.getUserByUsername(username), HttpStatus.OK);
 		} else {
-			System.out.println("you kinda did it");
+			System.out.println("User Verification Failed");
 			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
@@ -93,9 +93,10 @@ public class UserController {
 			//making a security code for the recovery email and storing it in the salt column of the user's db record
 			String securityCode = String.valueOf(userServ.generateSecurityCode());
 			User resetUser = userServ.getUserByEmail(email);
+//			securityCode = userServ.encryptSecurityCode(securityCode);
 			resetUser.setSalt(securityCode);
 			userServ.updateUser(resetUser);
-			userServ.sendRecoveryEmail(email, Integer.parseInt(securityCode));
+			userServ.sendRecoveryEmail(email, securityCode);
 			return new ResponseEntity<>("An email has been sent with instructions to reset your password", HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -106,7 +107,13 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	@PostMapping("/passwordreset")
 	public ResponseEntity<String> putPassReset(@RequestBody LinkedHashMap passMap) {
-		User user = userServ.getUserBySecurityCode((String)passMap.get("username"));
+		User user = null;
+		user = userServ.getUserBySecurityCode((String)passMap.get("username"));
+//		try {
+//			user = userServ.getUserBySecurityCode(userServ.encryptSecurityCode((String)passMap.get("username")));			
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
 		if(user!=null) {
 			user.setPassword((String)passMap.get("password"));
 			try {
@@ -133,6 +140,7 @@ public class UserController {
 		}
 	}
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username){
 		User user = userServ.getUserByUsername(username);

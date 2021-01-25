@@ -45,7 +45,12 @@ public class UserService {
 		updateUser(user);
 	}
 	
-	public void sendRecoveryEmail(String email, int securityCode) throws UserNotFoundException {
+	public String encryptSecurityCode(String code) throws NoSuchAlgorithmException {
+		String hash = Encrypt.generateHash(code, "SHA-256");
+		return hash;
+	}
+	
+	public void sendRecoveryEmail(String email, String securityCode) throws UserNotFoundException {
 		if(userRepo.findByEmail(email)!=null) {
 			try {
 				RecoveryEmail.sendRecoveryMail(email, securityCode);
