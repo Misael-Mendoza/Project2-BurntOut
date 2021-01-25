@@ -99,8 +99,7 @@ public class User {
 		this.password = password;
 		this.userRole = userRole;
 		this.companyId = companyId;
-		this.userRoleName = userRole.getUserRole();
-		this.companyName = companyId.getCompanyName();
+		setUpFields();
 	}
 
 	public User(int userId) {
