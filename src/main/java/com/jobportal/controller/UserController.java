@@ -133,6 +133,7 @@ public class UserController {
 		}
 	}
 	
+	@CrossOrigin(origins = "*")
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username){
 		User user = userServ.getUserByUsername(username);
