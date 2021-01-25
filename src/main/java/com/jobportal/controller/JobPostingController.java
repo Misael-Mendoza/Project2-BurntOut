@@ -90,7 +90,6 @@ public class JobPostingController {
 	public ResponseEntity<List<JobPosting>> getJobPostingByCompanyName(
 			@PathVariable("companyName") String companyName) {
 		Company company = compServ.getCompanyByName(companyName);
-		System.out.println(company);
 		List<JobPosting> jpList = jpServ.getJobPostingsByCompanyId(company);
 		if (jpList.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
@@ -109,14 +108,15 @@ public class JobPostingController {
 			return new ResponseEntity<>(jpList, HttpStatus.OK);
 		}
 	}
-
+	
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
-		JobPosting jp = new JobPosting(new User(Integer.parseInt((String) lhMap.get("poster_id"))),
+		System.out.println("Hitting");
+		JobPosting jp = new JobPosting(new User((int)lhMap.get("poster_id")),
 				new Timestamp(System.currentTimeMillis()), (String) lhMap.get("title"),
 				(String) lhMap.get("description"), new Location(Integer.parseInt((String) lhMap.get("location_id"))),
 				new Industry(Integer.parseInt((String) lhMap.get("industry_id"))),
-				new Company(Integer.parseInt((String) lhMap.get("company_id"))));
+				new Company((int)lhMap.get("company_id")));
 		jpServ.insertJobPosting(jp);
 		return new ResponseEntity<>("Job Posting successfully created", HttpStatus.CREATED);
 	}
