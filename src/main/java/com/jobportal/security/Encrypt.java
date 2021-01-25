@@ -7,7 +7,7 @@ import java.security.SecureRandom;
 public class Encrypt {
 	
 	private String data;
-	private String algorithm = "SHA-256";
+	private final String algorithm = "SHA-256";
 	private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 	
 	public static String[] generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException{
@@ -19,6 +19,14 @@ public class Encrypt {
 		String stringSalt = bytesToStringHex(salt);
 		String[] hashAndSalt = {stringHash, stringSalt};
 		return hashAndSalt;
+	}
+	
+	public static String generateHash(String data, String algorithm) throws NoSuchAlgorithmException{
+		MessageDigest digest = MessageDigest.getInstance(algorithm);
+		digest.reset();
+		byte[] hash = digest.digest(data.getBytes());
+		String generatedHash = bytesToStringHex(hash);
+		return generatedHash;
 	}
 	
 	
