@@ -3,6 +3,7 @@ package com.jobportal.service;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +132,11 @@ public class UserService {
 		if(securityCode.length()<15) {
 			user = userRepo.findBySalt(securityCode);
 		}
+		return user;
+	}
+	
+	public User getUserByUserId(int id) {
+		User user = userRepo.findByUserId(id);
 		return user;
 	}
 	
