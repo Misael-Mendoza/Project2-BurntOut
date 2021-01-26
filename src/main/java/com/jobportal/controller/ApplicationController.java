@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jobportal.exception.JobPostingNotFoundException;
+import com.jobportal.mail.ApplicationAlertMail;
 import com.jobportal.model.Application;
 import com.jobportal.model.ApplicationStatus;
 import com.jobportal.model.Blog;
@@ -98,6 +99,12 @@ public class ApplicationController {
 		User user = userServ.getUserByUsername((String)appMap.get("username"));
 		ApplicationStatus appStatus = appStatusServ.getStatusByStatus("Pending");
 		JobPosting jp = jpServ.findByPrimaryKey(Integer.parseInt((String)appMap.get("posting_id")));
+		try {
+			ApplicationAlertMail.sendApplicationAlert(jp.getPosterId().getEmail(), jp.getTitle(), String.valueOf(jp.getPostingId()));			
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Error Creating Application Alert", HttpStatus.NOT_FOUND);
+		}
 		Application app = new Application(
 				user, 
 				jp,
