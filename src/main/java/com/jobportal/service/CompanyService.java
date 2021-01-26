@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jobportal.model.Company;
+import com.jobportal.model.Industry;
 import com.jobportal.repository.CompanyRepository;
 
 
@@ -33,6 +34,10 @@ public class CompanyService {
 		}else {
 			return null;
 		}
+	}
+	
+	public void insertCompany(Company com) {
+		comRepo.save(com);
 	}
 	
 }

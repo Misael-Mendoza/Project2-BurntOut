@@ -43,6 +43,13 @@ public class Industry {
 		super();
 		this.industryId = industryId;
 	}
+
+	public Industry(String industryName) {
+		super();
+		this.industryName = industryName;
+	}
+	
+	
 	
 	
 }
