@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,12 @@ public class UserController {
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) throws UserNotFoundException {
 		UserRole userRole = userRoleServ.getRoleByName((String)uMap.get("userRole"));
 		Company company = compServ.getCompanyByName((String)uMap.get("company"));
+		
+		if(company == null) {
+			company = new Company((String)uMap.get("company"));
+			compServ.insertCompany(company);
+		}
+		
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
 				(String)uMap.get("password"), null, userRole, company);
 
@@ -177,6 +184,47 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(userList, HttpStatus.OK);
+		}
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PutMapping()
+	public ResponseEntity<User> putUser(@RequestBody LinkedHashMap hashMap) {
+		User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
+		User userByUsername = userServ.getUserByUsername((String)hashMap.get("username"));
+		
+		if(userByUsername == null || (user.getUserId() == userByUsername.getUserId())) {
+			User userByEmail = userServ.getUserByEmail((String)hashMap.get("email"));
+			
+			if(userByEmail == null || (user.getUserId() == userByEmail.getUserId())) {
+				Company company = compServ.getCompanyByName((String)hashMap.get("company"));
+				if(company == null) {
+					company = new Company((String)hashMap.get("company"));
+					compServ.insertCompany(company);
+				}
+				
+				user.setFirstName((String)hashMap.get("firstName"));
+				user.setLastName((String)hashMap.get("lastName"));
+				user.setEmail((String)hashMap.get("email"));
+				user.setUsername((String)hashMap.get("username"));
+				user.setCompanyId(company);
+				
+				try {
+					userServ.updateUser(user);
+					return new ResponseEntity<>(user, HttpStatus.OK);
+				} catch (UserNotFoundException e) {
+					e.printStackTrace();
+					return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+				}
+			}
+			
+			else {
+				return new ResponseEntity<>(userByEmail, HttpStatus.METHOD_NOT_ALLOWED);
+			}
+		}
+		
+		else {
+			return new ResponseEntity<>(userByUsername, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 }

@@ -75,6 +75,7 @@ public class JobPosting {
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	private List<Tag> tagsList = new ArrayList<>();
 	
+	@Transient private int poster_id;
 	@Transient private String locationName;
 	@Transient private String companyName;
 	@Transient private String industryName;
@@ -88,6 +89,7 @@ public class JobPosting {
 		this.locationName = locationId.getLocationName();
 		this.industryName = industryId.getIndustryName();
 		this.companyName = companyId.getCompanyName();
+		this.poster_id = posterId.getUserId();
 	}
 
 	public JobPosting(User posterId, Timestamp date, String title, String description, Location locationId,
