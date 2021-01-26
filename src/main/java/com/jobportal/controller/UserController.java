@@ -184,11 +184,12 @@ public class UserController {
 	@CrossOrigin(origins = "*")
 	@PutMapping()
 	public ResponseEntity<User> putUser(@RequestBody LinkedHashMap hashMap) {
+		User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
 		User userByUsername = userServ.getUserByUsername((String)hashMap.get("username"));
-		if(userByUsername == null) {
+		if(userByUsername == null || (user.getUserId() == userByUsername.getUserId())) {
 			User userByEmail = userServ.getUserByEmail((String)hashMap.get("email"));
-			if(userByEmail == null) {
-				User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
+			if(userByEmail == null || (user.getUserId() == userByEmail.getUserId())) {
+				//User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
 				user.setFirstName((String)hashMap.get("firstName"));
 				user.setLastName((String)hashMap.get("lastName"));
 				user.setEmail((String)hashMap.get("email"));
@@ -198,19 +199,16 @@ public class UserController {
 					return new ResponseEntity<>(user, HttpStatus.OK);
 				} catch (UserNotFoundException e) {
 					e.printStackTrace();
-					System.out.println("No user issue");
 					return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 				}
 			}
 			
 			else {
-				System.out.println("Email issue");
 				return new ResponseEntity<>(userByEmail, HttpStatus.METHOD_NOT_ALLOWED);
 			}
 		}
 		
 		else {
-			System.out.println("Username issue");
 			return new ResponseEntity<>(userByUsername, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
