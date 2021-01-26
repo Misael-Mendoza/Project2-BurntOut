@@ -43,6 +43,12 @@ public class UserController {
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) throws UserNotFoundException {
 		UserRole userRole = userRoleServ.getRoleByName((String)uMap.get("userRole"));
 		Company company = compServ.getCompanyByName((String)uMap.get("company"));
+		
+		if(company == null) {
+			company = new Company((String)uMap.get("company"));
+			compServ.insertCompany(company);
+		}
+		
 		User user = new User((String)uMap.get("firstName"), (String)uMap.get("lastName"), (String)uMap.get("email"), (String)uMap.get("username"), 
 				(String)uMap.get("password"), null, userRole, company);
 
@@ -187,13 +193,14 @@ public class UserController {
 		User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
 		User userByUsername = userServ.getUserByUsername((String)hashMap.get("username"));
 		if(userByUsername == null || (user.getUserId() == userByUsername.getUserId())) {
+			
 			User userByEmail = userServ.getUserByEmail((String)hashMap.get("email"));
 			if(userByEmail == null || (user.getUserId() == userByEmail.getUserId())) {
-				//User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
 				user.setFirstName((String)hashMap.get("firstName"));
 				user.setLastName((String)hashMap.get("lastName"));
 				user.setEmail((String)hashMap.get("email"));
 				user.setUsername((String)hashMap.get("username"));
+				
 				try {
 					userServ.updateUser(user);
 					return new ResponseEntity<>(user, HttpStatus.OK);

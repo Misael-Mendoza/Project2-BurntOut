@@ -45,6 +45,11 @@ public class Company {
 		super();
 		this.companyId = companyId;
 	}
+	
+	public Company(String companyName) {
+		super();
+		this.companyName = companyName;
+	}
 
 	@Override
 	public String toString() {
