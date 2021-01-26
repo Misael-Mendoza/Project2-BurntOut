@@ -192,14 +192,22 @@ public class UserController {
 	public ResponseEntity<User> putUser(@RequestBody LinkedHashMap hashMap) {
 		User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
 		User userByUsername = userServ.getUserByUsername((String)hashMap.get("username"));
+		
 		if(userByUsername == null || (user.getUserId() == userByUsername.getUserId())) {
-			
 			User userByEmail = userServ.getUserByEmail((String)hashMap.get("email"));
+			
 			if(userByEmail == null || (user.getUserId() == userByEmail.getUserId())) {
+				Company company = compServ.getCompanyByName((String)hashMap.get("company"));
+				if(company == null) {
+					company = new Company((String)hashMap.get("company"));
+					compServ.insertCompany(company);
+				}
+				
 				user.setFirstName((String)hashMap.get("firstName"));
 				user.setLastName((String)hashMap.get("lastName"));
 				user.setEmail((String)hashMap.get("email"));
 				user.setUsername((String)hashMap.get("username"));
+				user.setCompanyId(company);
 				
 				try {
 					userServ.updateUser(user);
