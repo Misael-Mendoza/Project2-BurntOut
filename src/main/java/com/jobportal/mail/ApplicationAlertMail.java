@@ -47,7 +47,7 @@ public class ApplicationAlertMail {
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 			message.setSubject("Someone Has Applied To Your Job Posting!");
 			String htmlContent = "<h2>You Have An Applicant!</h2><br/><h3>Your Job: "+jobName+" has a new applicant</h3><br/>"
-					+ "<a href='http://localhost:4200/jobs/review-applicants/'"+jobId+"'>View Your Applicants</a>";
+					+ "<a href='http://localhost:4200/jobs/review-applicants/"+jobId+"'>View Your Applicants</a>";
 			message.setContent(htmlContent, "text/html");
 			return message;
 		} catch(Exception e) {
