@@ -63,6 +63,7 @@ public class Application {
 	@Transient private String jobPostingTitle;
 	@Transient private int jobPostingId;
 	@Transient private String applicationStatus;
+	@Transient private String companyName;
 
 	public int getApplicationId() {
 		setUpFields();
@@ -76,6 +77,7 @@ public class Application {
 		this.applicationStatus = statusId.getStatus();
 		this.jobPostingId = postingId.getPostingId();
 		this.applicantUsername = applicantId.getUsername();
+		this.companyName = postingId.getCompanyName();
 	}
 	
 	public Application(User applicantId, JobPosting postingId, Timestamp appDate, Blob resume,
