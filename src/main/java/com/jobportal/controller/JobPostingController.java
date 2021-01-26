@@ -110,6 +110,19 @@ public class JobPostingController {
 		}
 	}
 	
+	@GetMapping("/posting-id/{id}")
+	public ResponseEntity<JobPosting> getJobPostingById(@PathVariable("id") int id) {
+		JobPosting jp = jpServ.getJobPostingByPostingId(id);
+		System.out.println("inside postingid endpoint");
+		if(jp!=null) {
+			System.out.println("jp is not null");
+			return new ResponseEntity<>(jp, HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
 		

@@ -43,6 +43,10 @@ public class JobPostingService {
 		return jpRepo.findByIndustryId(industryId);
 	}
 	
+	public JobPosting getJobPostingByPostingId(int id) {
+		return jpRepo.findByPostingId(id);
+	}
+	
 	public void insertJobPosting(JobPosting jp) {
 		jpRepo.save(jp);
 	}

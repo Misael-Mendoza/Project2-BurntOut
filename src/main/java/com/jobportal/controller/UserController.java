@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -177,6 +178,38 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			return new ResponseEntity<>(userList, HttpStatus.OK);
+		}
+	}
+	
+	@CrossOrigin(origins = "*")
+	@PutMapping()
+	public ResponseEntity<User> putUser(@RequestBody LinkedHashMap hashMap) {
+		User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
+		User userByUsername = userServ.getUserByUsername((String)hashMap.get("username"));
+		if(userByUsername == null || (user.getUserId() == userByUsername.getUserId())) {
+			User userByEmail = userServ.getUserByEmail((String)hashMap.get("email"));
+			if(userByEmail == null || (user.getUserId() == userByEmail.getUserId())) {
+				//User user = userServ.getUserByUserId((Integer)hashMap.get("id"));
+				user.setFirstName((String)hashMap.get("firstName"));
+				user.setLastName((String)hashMap.get("lastName"));
+				user.setEmail((String)hashMap.get("email"));
+				user.setUsername((String)hashMap.get("username"));
+				try {
+					userServ.updateUser(user);
+					return new ResponseEntity<>(user, HttpStatus.OK);
+				} catch (UserNotFoundException e) {
+					e.printStackTrace();
+					return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+				}
+			}
+			
+			else {
+				return new ResponseEntity<>(userByEmail, HttpStatus.METHOD_NOT_ALLOWED);
+			}
+		}
+		
+		else {
+			return new ResponseEntity<>(userByUsername, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
 }
