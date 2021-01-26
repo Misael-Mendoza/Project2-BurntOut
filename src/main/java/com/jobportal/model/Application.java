@@ -57,9 +57,13 @@ public class Application {
 	@JsonIgnore
 	private ApplicationStatus statusId;
 	
-	@Transient private String applicantName;
+	@Transient private String applicantFirstName;
+	@Transient private String applicantLastName;
+	@Transient private String applicantUsername;
 	@Transient private String jobPostingTitle;
+	@Transient private int jobPostingId;
 	@Transient private String applicationStatus;
+	@Transient private String companyName;
 
 	public int getApplicationId() {
 		setUpFields();
@@ -67,9 +71,13 @@ public class Application {
 	}
 	
 	public void setUpFields() {
-		this.applicantName = applicantId.getFirstName() + " " + applicantId.getLastName();
+		this.applicantFirstName = applicantId.getFirstName();
+		this.applicantLastName = applicantId.getLastName();
 		this.jobPostingTitle = postingId.getTitle();
 		this.applicationStatus = statusId.getStatus();
+		this.jobPostingId = postingId.getPostingId();
+		this.applicantUsername = applicantId.getUsername();
+		this.companyName = postingId.getCompanyName();
 	}
 	
 	public Application(User applicantId, JobPosting postingId, Timestamp appDate, Blob resume,

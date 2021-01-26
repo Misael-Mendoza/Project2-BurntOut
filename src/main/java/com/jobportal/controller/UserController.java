@@ -77,10 +77,8 @@ public class UserController {
 			e.printStackTrace();
 		}
 		if(isVerified) {
-			System.out.println("User Verification Successful");
 			return new ResponseEntity<>(userServ.getUserByUsername(username), HttpStatus.OK);
 		} else {
-			System.out.println("User Verification Failed");
 			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}

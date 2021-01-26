@@ -41,11 +41,12 @@ public class JobPostingController {
 
 	private JobPostingService jpServ;
 	private CompanyService compServ;
+	private LocationService locServ;
+	private IndustryService indServ;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings() {
 		List<JobPosting> jpList = jpServ.getAllJobPostings();
-		System.out.println(jpList);
 		if (jpList.size() == 0) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
@@ -111,11 +112,33 @@ public class JobPostingController {
 	
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
-		System.out.println("Hitting");
+		
+		Location loc = new Location();
+		Industry ind = new Industry();
+		try {
+			loc = locServ.getLocationByName((String)lhMap.get("location_name"));
+			ind = indServ.getIndustryByName((String) lhMap.get("industry_name"));
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+		}
+		
+		if(loc==null) {
+			loc = new Location((String)lhMap.get("location_name"));
+			locServ.insertLocation(loc);
+			
+		}
+		
+		if(ind==null) {
+			ind = new Industry((String) lhMap.get("industry_name"));
+			indServ.insertIndustry(ind);
+		}
+		
 		JobPosting jp = new JobPosting(new User((int)lhMap.get("poster_id")),
 				new Timestamp(System.currentTimeMillis()), (String) lhMap.get("title"),
-				(String) lhMap.get("description"), new Location(Integer.parseInt((String) lhMap.get("location_id"))),
-				new Industry(Integer.parseInt((String) lhMap.get("industry_id"))),
+				(String) lhMap.get("description"),
+				loc,
+				ind,
 				new Company((int)lhMap.get("company_id")));
 		jpServ.insertJobPosting(jp);
 		return new ResponseEntity<>("Job Posting successfully created", HttpStatus.CREATED);
