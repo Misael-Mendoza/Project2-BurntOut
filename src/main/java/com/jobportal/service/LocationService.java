@@ -34,4 +34,8 @@ public class LocationService {
 			return null;
 		}
 	}
+	
+	public void insertLocation(Location loc) {
+		locRepo.save(loc);
+	}
 }
