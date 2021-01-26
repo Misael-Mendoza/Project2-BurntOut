@@ -73,7 +73,6 @@ public class JobPosting {
 	private List<Application> applicationList = new ArrayList<>();
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-	@JsonIgnore
 	private List<Tag> tagsList = new ArrayList<>();
 	
 	@Transient private String locationName;
