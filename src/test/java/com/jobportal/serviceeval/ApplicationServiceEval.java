@@ -58,13 +58,13 @@ public class ApplicationServiceEval {
 	public void setUp() throws Exception {
 
 		app = new Application();
-		when(appServ.getAllApplications()).thenReturn(appList);
-		when(appServ.getApplicationById(0)).thenReturn(app);
-		when(appServ.getApplicationById(1)).thenReturn(null);
-		when(appServ.getApplicationByApplicantId(user)).thenReturn(appList);
-		when(appServ.getApplicationByApplicantId(user1)).thenReturn(null);
-		when(appServ.getApplicationByPostingId(jobPost)).thenReturn(appList);
-		when(appServ.getApplicationByPostingId(jobPost1)).thenReturn(null);
+		when(appRepo.findAll()).thenReturn(appList);
+		when(appRepo.findByApplicationId(0)).thenReturn(app);
+		when(appRepo.findByApplicationId(1)).thenReturn(null);
+		when(appRepo.findByApplicantId(user)).thenReturn(appList);
+		when(appRepo.findByApplicantId(user1)).thenReturn(null);
+		when(appRepo.findByPostingId(jobPost)).thenReturn(appList);
+		when(appRepo.findByPostingId(jobPost1)).thenReturn(null);
 	}
 
 	// --------- Tests for getAllApplications()
@@ -73,11 +73,6 @@ public class ApplicationServiceEval {
 		assertEquals(appServ.getAllApplications(), appList);
 	}
 
-	public void testFindAllFailure() {
-		appList = null;
-		assertEquals(appServ.getAllApplications(), null);
-	}
-	
 	// --------- Tests for getApplicationById()
 	@Test
 	public void testGetApplicationByIdSuccess() {
