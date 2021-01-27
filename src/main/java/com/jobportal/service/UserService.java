@@ -34,7 +34,7 @@ public class UserService {
 		if(userCheck.getPassword().equals(Encrypt.generateHash(password, "SHA-256", Encrypt.hexStringToByteArray(userCheck.getSalt()))[0])) {
 			isVerified = true;
 		}
-		return isVerified;					
+		return isVerified;
 	}
 	
 	public void encryptPassword(String username, String password) throws NoSuchAlgorithmException, UserNotFoundException {
