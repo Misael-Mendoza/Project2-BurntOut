@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,7 @@ public class BlogServiceTest {
 	private BlogService bServ;
 	
 	private Blog blog;
+	private List<Blog> blogList = new ArrayList<>();
 	
 	@BeforeEach
 	public void setUp() {
@@ -36,7 +39,15 @@ public class BlogServiceTest {
 		when(bDao.findByOwnerId(100)).thenReturn(null);
 		when(bDao.findByBlogTitle("Hello")).thenReturn(blog);
 		when(bDao.findByBlogTitle("adsasdsads")).thenReturn(null);
+		when(bDao.findAll()).thenReturn(blogList);
+		
 	}
+	
+	@Test
+	public void testFindAllSuccess() {
+		assertEquals(bServ.getAllUsers(), blogList);
+	}
+	
 	
 	@Test
 	public void testFindByOwnerIdSuccess() {
