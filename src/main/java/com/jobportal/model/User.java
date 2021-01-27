@@ -107,6 +107,12 @@ public class User {
 		this.userId = userId;
 	}
 	
+	public User(int userId, UserRole userRole) {
+		super();
+		this.userId = userId;
+		this.userRole = userRole;
+	}
+	
 	public void setUpFields() {
 		this.userRoleName = userRole.getUserRole();
 		if(this.companyId == null) {
@@ -123,6 +129,10 @@ public class User {
 				+ ", username=" + username + ", password=" + password + ", userRoleName=" + userRoleName
 				+ ", companyName=" + companyName + "]";
 	}
+
+	
+	
+	
 	
 
 }
