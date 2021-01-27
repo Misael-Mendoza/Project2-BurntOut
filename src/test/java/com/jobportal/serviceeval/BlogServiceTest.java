@@ -48,6 +48,7 @@ public class BlogServiceTest {
 		assertEquals(bServ.getAllUsers(), blogList);
 	}
 	
+	
 	@Test
 	public void testFindByOwnerIdSuccess() {
 		assertEquals(bServ.getBlogByOwnerId(9).getBlogTitle(), blog.getBlogTitle());
