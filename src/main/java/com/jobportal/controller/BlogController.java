@@ -64,18 +64,11 @@ public class BlogController {
 		return blog != null ? new ResponseEntity<>(blog,HttpStatus.OK) : new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 	
-//	@GetMapping("/date/{date}")
-//	public ResponseEntity<Blog>getBlogByDate(@PathVariable("date") String date){
-//		
-//	}
-//	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteBlog(@PathVariable("id") int id){
 		Blog blog = blogServ.getBlogById(id);
-		if (blog != null) {
-			blogServ.deleteBlog(blog);
-			return new ResponseEntity<>("Blog Deleted!",HttpStatus.GONE);
-		} 
-		return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+		blogServ.deleteBlog(blog);
+		return new ResponseEntity<>("Blog Deleted!",HttpStatus.GONE);
 	}
 }
