@@ -32,19 +32,20 @@ public class ApplicationStatusServiceEval {
 	public void setUp() throws Exception {
 
 		appStat = new ApplicationStatus();
-		when(appSServ.getStatusById(0)).thenReturn(appStat);
-		when(appSServ.getStatusById(1)).thenReturn(null);
-		when(appSServ.getStatusByStatus("Pending")).thenReturn(appStat);
-		when(appSServ.getStatusByStatus("No status!")).thenReturn(null);
+		when(appSRepo.findByStatusId(0)).thenReturn(appStat);
+		when(appSRepo.findByStatusId(1)).thenReturn(null);
+		when(appSRepo.findByStatus("Pending")).thenReturn(appStat);
+		when(appSRepo.findByStatus("No status!")).thenReturn(null);
 	}
 
 	// --------- Tests for getStatusById()
 	@Test
-	public void testgetStatusByIdSuccess() {
+	public void testGetStatusByIdSuccess() {
 		assertEquals(appSServ.getStatusById(0), appStat);
 	}
 
-	public void testgetStatusByIdFailure() {
+	@Test
+	public void testGetStatusByIdFailure() {
 		assertEquals(appSServ.getStatusById(1), null);
 	}
 	
