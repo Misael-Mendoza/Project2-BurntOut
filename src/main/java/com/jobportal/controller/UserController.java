@@ -113,11 +113,7 @@ public class UserController {
 	public ResponseEntity<String> putPassReset(@RequestBody LinkedHashMap passMap) {
 		User user = null;
 		user = userServ.getUserBySecurityCode((String)passMap.get("username"));
-//		try {
-//			user = userServ.getUserBySecurityCode(userServ.encryptSecurityCode((String)passMap.get("username")));			
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
+
 		if(user!=null) {
 			user.setPassword((String)passMap.get("password"));
 			try {
@@ -165,27 +161,27 @@ public class UserController {
 		}
 	}
 	
-	@GetMapping("/userRole/{userRoleId}")
-	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("userRoleId") int userRoleId) {
-		UserRole userRole = userRoleServ.getRoleById(userRoleId);
-		List<User> userList = userServ.getUsersByRole(userRole);
-		if(userList.size()==0) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(userList, HttpStatus.OK);
-		}
-	}
-	
-	@GetMapping("/company/{companyId}")
-	public ResponseEntity<List<User>> getUsersByCompany(@PathVariable("companyId") int companyId) {
-		Company company = compServ.getCompanyById(companyId);
-		List<User> userList = userServ.getUsersByCompany(company);
-		if(userList.size()==0) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<>(userList, HttpStatus.OK);
-		}
-	}
+//	@GetMapping("/userRole/{userRoleId}")
+//	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("userRoleId") int userRoleId) {
+//		UserRole userRole = userRoleServ.getRoleById(userRoleId);
+//		List<User> userList = userServ.getUsersByRole(userRole);
+//		if(userList.size()==0) {
+//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//		} else {
+//			return new ResponseEntity<>(userList, HttpStatus.OK);
+//		}
+//	}
+//	
+//	@GetMapping("/company/{companyId}")
+//	public ResponseEntity<List<User>> getUsersByCompany(@PathVariable("companyId") int companyId) {
+//		Company company = compServ.getCompanyById(companyId);
+//		List<User> userList = userServ.getUsersByCompany(company);
+//		if(userList.size()==0) {
+//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//		} else {
+//			return new ResponseEntity<>(userList, HttpStatus.OK);
+//		}
+//	}
 	
 	@CrossOrigin(origins = "*")
 	@PutMapping()
