@@ -48,6 +48,12 @@ public class Location {
 		super();
 		this.locationName = locationName;
 	}
+
+	public Location(int locationId, String locationName) {
+		super();
+		this.locationId = locationId;
+		this.locationName = locationName;
+	}
 	
 	
 }

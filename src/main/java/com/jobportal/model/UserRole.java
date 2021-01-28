@@ -41,5 +41,12 @@ public class UserRole {
 	@OneToMany(mappedBy="userRole", fetch=FetchType.LAZY)
 	@JsonIgnore
 	private List<User> userList = new ArrayList<User>();
+
+	public UserRole(int userRoleID) {
+		super();
+		this.userRoleID = userRoleID;
+	}
+	
+	
 	
 }
