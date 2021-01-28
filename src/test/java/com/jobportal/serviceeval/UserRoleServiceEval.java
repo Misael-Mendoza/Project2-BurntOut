@@ -33,10 +33,10 @@ public class UserRoleServiceEval {
 	@BeforeEach
 	public void setUp() throws Exception {
 		uRole = new UserRole(1, "Candidate", uList);
-		when(urServ.getRoleById(1)).thenReturn(uRole);
-		when(urServ.getRoleById(0)).thenReturn(null);
-		when(urServ.getRoleByName("Candidate")).thenReturn(uRole);
-		when(urServ.getRoleByName("none")).thenReturn(null);
+		when(urRepo.findByUserRoleID(1)).thenReturn(uRole);
+		when(urRepo.findByUserRoleID(0)).thenReturn(null);
+		when(urRepo.findByUserRole("Candidate")).thenReturn(uRole);
+		when(urRepo.findByUserRole("none")).thenReturn(null);
 	}
 	
 	@Test

@@ -3,7 +3,8 @@ package com.jobportal.serviceeval;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,22 +30,25 @@ public class UserServiceEval {
 	@Mock
 	private Company comp;
 	
-	
 	private User user;
+	private List<User> uList = new ArrayList<>();
 	
 	@InjectMocks
 	private UserService uServ;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
+		
 		user = new User("Ryan", "Curley", "ryancurley72@gmail.com", "ryan", "5430E0ECA9C929C5A47EFFC526E88D65522E44F66A45F021F8DA28EA76462F6D", 
 				"12F13107450F12CBF7F0BE83813B2658", uRole, comp);
-		when(uServ.getUserByUserId(11)).thenReturn(user);
-		when(uServ.getUserByUserId(0)).thenReturn(null);
-		when(uServ.getUserByEmail("ryancurley72@gmail.com")).thenReturn(user);
-		when(uServ.getUserByEmail("fakeemail")).thenReturn(null);
-		when(uServ.getUserByUsername("ryan")).thenReturn(user);
-		when(uServ.getUserByUsername("notryan")).thenReturn(null);
+		uList.add(user);
+		when(uRepo.findByUserId(11)).thenReturn(user);
+		when(uRepo.findByUserId(0)).thenReturn(null);
+		when(uRepo.findByEmail("ryancurley72@gmail.com")).thenReturn(user);
+		when(uRepo.findByEmail("fakeemail")).thenReturn(null);
+		when(uRepo.findByUsername("ryan")).thenReturn(user);
+		when(uRepo.findByUsername("notryan")).thenReturn(null);
+		when(uRepo.findAll()).thenReturn(uList);
 
 	}
 	
@@ -76,6 +80,11 @@ public class UserServiceEval {
 	@Test
 	public void testFindByUsernameFailure() {
 		assertEquals(uServ.getUserByUsername("notryan"),null);
+	}
+	
+	@Test
+	public void testFindAll() {
+		assertEquals(uServ.getAllUsers(), uList);
 	}
 
 }

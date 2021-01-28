@@ -46,11 +46,11 @@ public class UserService {
 		updateUser(user);
 	}
 	
-	public String encryptSecurityCode(String code) throws NoSuchAlgorithmException {
-		String hash = Encrypt.generateHash(code, "SHA-256");
-		return hash;
-	}
-	
+//	public String encryptSecurityCode(String code) throws NoSuchAlgorithmException {
+//		String hash = Encrypt.generateHash(code, "SHA-256");
+//		return hash;
+//	}
+//	
 	public void sendRecoveryEmail(String email, String securityCode) throws UserNotFoundException {
 		if(userRepo.findByEmail(email)!=null) {
 			try {
@@ -140,20 +140,20 @@ public class UserService {
 		return user;
 	}
 	
-	public List<User> getUsersByRole(UserRole userRole) {
-		List<User> userList = new ArrayList<>();
-		if(true) {	
-			userList = userRepo.findByUserRole(userRole);
-		}
-		return userList;
-	}
-	
-	public List<User> getUsersByCompany(Company company) {
-		List<User> userList = new ArrayList<>();
-		if(true) {	
-			userList = userRepo.findByCompanyId(company);
-		}
-		return userList;
-	}
+//	public List<User> getUsersByRole(UserRole userRole) {
+//		List<User> userList = new ArrayList<>();
+//		if(true) {	
+//			userList = userRepo.findByUserRole(userRole);
+//		}
+//		return userList;
+//	}
+//	
+//	public List<User> getUsersByCompany(Company company) {
+//		List<User> userList = new ArrayList<>();
+//		if(true) {	
+//			userList = userRepo.findByCompanyId(company);
+//		}
+//		return userList;
+//	}
 	
 }
