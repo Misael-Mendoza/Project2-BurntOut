@@ -16,11 +16,21 @@ public class WelcomePage {
 	@FindBy(xpath = "//*[@id ='sign-in-button']")
 	public WebElement signInButton;
 	
+	@FindBy(xpath = "//*[@id = 'sign-up-button']")
+	public WebElement signUpButton;
+
 	@FindBy(xpath = "//a[@href ='/blog']")
 	public WebElement BlogButton;
+
+	@FindBy(xpath = "//*[@id ='profile-button']")
+	public WebElement profileButton;
 	
 	public WelcomePage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
+	}
+	
+	public void clickProfileButton() {
+		this.profileButton.click();
 	}
 	
 	

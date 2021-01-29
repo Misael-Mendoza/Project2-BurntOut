@@ -23,6 +23,11 @@ import com.jobportal.service.BlogService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class act as a RESTFul controller that exposes endpoints for websites to use involving Blogs.
+ * The only role of this class is prepare data for the DAO and service layer
+ * @author darie
+ */
 @RestController
 @RequestMapping(value = "/blogs")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -45,6 +50,10 @@ public class BlogController {
 		return new ResponseEntity<>("Blog Successfully Created!",HttpStatus.CREATED); 
 	}
 	
+	/**
+	 * Returns all of the blog posts stored in the DB
+	 * @return - Returns a list of all the jobs stored in the DB, and a status code of 200. If there are no jobs stored it return null and a 404 code.
+	 */
 	@CrossOrigin(origins = "*")
 	@GetMapping("/all")
 	public ResponseEntity<List<Blog>> getAllBlog(){
@@ -52,19 +61,33 @@ public class BlogController {
 		return blogList.size() == 0 ? new ResponseEntity<>(null, HttpStatus.NOT_FOUND) : new ResponseEntity<>(blogList, HttpStatus.OK);
 	}
 	
+	/**
+	 * Looks up blog post by Id. 
+	 * @param id - The id of the blog post that you want get.
+	 * @return Returns the blog post whose id is the same as the parameter.If the blog post doesn't exist then it returns null and status code of 404.
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Blog> getBlogById(@PathVariable("id") int id){
 		Blog blog = blogServ.getBlogById(id);
 		return blog != null ? new ResponseEntity<>(blog,HttpStatus.OK) :new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 	
+	/**
+	 * Looks up blog post by tile.
+	 * @param title - The title of the blog post that you want to get.
+	 * @return Returns the blog post whose title is the same the the function parameter and a status code of Ok. If the blog post doesn't exist then it returns null and status code of 404.
+	 */
 	@GetMapping("/title/{title}")
 	public ResponseEntity<Blog> getBlogByTitle(@PathVariable("title") String title){
 		Blog blog = blogServ.getBlogByTitle(title);
 		return blog != null ? new ResponseEntity<>(blog,HttpStatus.OK) : new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
 	}
 	
-
+	/**
+	 * Deletes a blog post by id.
+	 * @param id - The id of the blog post that you want to delete.
+	 * @return returns a string and a status code of GONE.
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteBlog(@PathVariable("id") int id){
 		Blog blog = blogServ.getBlogById(id);
