@@ -29,5 +29,9 @@ public class WelcomePage {
 		PageFactory.initElements(driver, this);
 	}
 	
+	public void clickProfileButton() {
+		this.profileButton.click();
+	}
+	
 	
 }
