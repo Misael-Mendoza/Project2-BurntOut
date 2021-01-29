@@ -13,7 +13,7 @@ Feature: Applying For A Job
 		When the candidate inputs "<anotherJobTitle>" to the Search bar
 		Then the job postings corresponding to the search show up
 		And the candidate clears the Search Bar
-		#When the candidate clicks the Apply button for the chosen posting
+		When the candidate clicks the Apply button for the chosen posting
 		Then the candidate is redirected to the Submit Application screen
 		But the only information the candidate provides is the resume
 		When the candidate clicks Submit Application
