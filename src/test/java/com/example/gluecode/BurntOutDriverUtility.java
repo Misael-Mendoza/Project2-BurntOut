@@ -1,5 +1,7 @@
 package com.example.gluecode;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -16,6 +18,8 @@ public class BurntOutDriverUtility {
 		System.setProperty("webdriver.chrome.driver", filePath);
 		driver = new ChromeDriver();
 		driver.get(url);
+		
+
 		
 	}
 	
