@@ -8,7 +8,7 @@ Feature: BurntOut Profile Edit
 		When the user is at the Log in page 
 		And  the user enters their "<username>" and "<password>"
 		Then the user is redirected to the welcome screen
-		When the user is at the welcome screen
+		When the user is at their welcome screen
 		Then the user clicks the profile button
 		And the user is redirected to their profile page
 		When the user is at their profile
