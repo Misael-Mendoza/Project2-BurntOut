@@ -7,35 +7,35 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class CandidatePage {
-	WebDriver driver;
 	
 	@FindBy(tagName = "h1")
-	WebElement title;
+	public WebElement title;
 	
 	@FindBy(tagName = "p")
-	WebElement intro;
+	public WebElement intro;
 	
 	@FindBy(tagName = "h1")
-	WebElement header1;
+	public WebElement header1;
 	
-	WebElement burntOutLink = driver.findElement(By.className("navbar-brand"));
+	@FindBy(className = "navbar-brand")
+	public WebElement burntOutLink;
 	
 	@FindBy(linkText = "Home")
-	WebElement homeLink;
+	public WebElement homeLink;
 	
 	@FindBy(linkText = "Blog")
-	WebElement blogLink;
+	public WebElement blogLink;
 	
 	@FindBy(linkText = "View Jobs")
-	WebElement viewJobsLink;
+	public WebElement viewJobsLink;
 	
 	@FindBy(xpath = "//button [@id = 'profile-button']")
-	WebElement profileButton;
+	public WebElement profileButton;
 	
 	@FindBy(xpath = "//button[text() = 'Sign Out']")
-	WebElement signOutButton;
+	public WebElement signOutButton;
 	
-	public CandidatePage() {
+	public CandidatePage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 	}
 	
