@@ -43,5 +43,23 @@ public class CandidatePage {
 		burntOutLink.click();
 	}
 	
+	public void clickHome() {
+		homeLink.click();
+	}
 	
+	public void clickBlogLink() {
+		blogLink.click();
+	}
+	
+	public void clickViewJobsLink() {
+		viewJobsLink.click();
+	}
+	
+	public void clickProfileButtonLink() {
+		profileButton.click();
+	}
+	
+	public void clickSignOutButtonLink() {
+		signOutButton.click();
+	}
 }
