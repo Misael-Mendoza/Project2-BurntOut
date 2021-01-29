@@ -16,6 +16,9 @@ public class WelcomePage {
 	@FindBy(xpath = "//*[@id ='sign-in-button']")
 	public WebElement signInButton;
 	
+	@FindBy(xpath = "//a[@href ='/blog']")
+	public WebElement BlogButton;
+	
 	public WelcomePage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 	}
