@@ -33,6 +33,11 @@ import com.jobportal.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class act as a RESTFul controller that exposes endpoints for websites to use involving Job Postings.
+ * The only role of this class is prepare data for the DAO and service layer
+ * @author darie
+ */
 @RestController
 @RequestMapping(value = "/jobpostings")
 @CrossOrigin(origins = "*")
@@ -46,6 +51,10 @@ public class JobPostingController {
 	private IndustryService indServ;
 	private UserService uServ;
 
+	/**
+	 * Returns all job postings
+	 * @return  a list of job postings with an OK status code or null if it couldn't get any with a 404 status code. 
+	 */
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings() {
 		List<JobPosting> jpList = jpServ.getAllJobPostings();
@@ -56,39 +65,12 @@ public class JobPostingController {
 		}
 	}
 
-//	@GetMapping("/title/{title}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingBy(@PathVariable("title") String title) {
-//		List<JobPosting> jpList = jpServ.getJobPostingsByTitle(title);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/location/{locationName}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingByLocation(@PathVariable("locationName") String locationName) {
-//		Location location = locServ.getLocationByName(locationName);
-//		List<JobPosting> jpList = jpServ.getJobPostingsByLocationId(location);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/industry/{industryId}")
-//	public ResponseEntity<List<JobPosting>> getJobPostingByIndustry(@PathVariable("industryId") int industryId) {
-//		Industry industry = indServ.getIndustryById(industryId);
-//		List<JobPosting> jpList = jpServ.getJobPostingsByIndustryId(industry);
-//		if(jpList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(jpList, HttpStatus.OK);
-//		}
-//	}
-//	
-
+	
+	/**
+	 * Passes a company name and returns a list of job postings by that company
+	 * @param companyName - Company to look for in the job postings returned
+	 * @return list of job postings by company with OK status code, if it doesn't find any returns null and 404 code.
+	 */
 	@GetMapping("/company/name/{companyName}")
 	public ResponseEntity<List<JobPosting>> getJobPostingByCompanyName(
 			@PathVariable("companyName") String companyName) {
@@ -101,6 +83,11 @@ public class JobPostingController {
 		}
 	}
 
+	/**
+	 * Passes a company ID and returns a list of job postings by that company
+	 * @param companyId - Company id of company matching job postings
+	 * @return list of job postings by company with OK status code, if it doesn't find any returns null and 404 code.
+	 */
 	@GetMapping("/company/{companyId}")
 	public ResponseEntity<List<JobPosting>> getJobPostingByCompany(@PathVariable("companyId") int companyId) {
 		Company company = compServ.getCompanyById(companyId);
@@ -112,6 +99,12 @@ public class JobPostingController {
 		}
 	}
 	
+	
+	/**
+	 * Gets one Job posting by posting id
+	 * @param id - Id of the job posting
+	 * @return job posting if it is found and ACCEPTED code, otherwise return a null value with a 404 code
+	 */
 	@GetMapping("/posting-id/{id}")
 	public ResponseEntity<JobPosting> getJobPostingById(@PathVariable("id") int id) {
 		JobPosting jp = jpServ.getJobPostingByPostingId(id);
@@ -123,11 +116,18 @@ public class JobPostingController {
 	}
 	
 	
+	
+	/**
+	 * Attempts to insert a new job posting with the form information is is passed in the body
+	 * @param lhMap - LinkedHashedMap of the form values for creating a job posting - poster_id, title, description, location_name, industry_name, company_name)
+	 * @return created status code with a success message, else returns a 500 error.
+	 */
 	@PostMapping()
 	public ResponseEntity<String> insertJobPosting(@RequestBody LinkedHashMap lhMap) {
 		
 		Location loc = new Location();
 		Industry ind = new Industry();
+		//Check to see if the location and industry already exist
 		try {
 			loc = locServ.getLocationByName((String)lhMap.get("location_name"));
 			ind = indServ.getIndustryByName((String) lhMap.get("industry_name"));
@@ -136,17 +136,20 @@ public class JobPostingController {
 			
 		}
 		
+		//If location doesn't exist, create it
 		if(loc==null) {
 			loc = new Location((String)lhMap.get("location_name"));
 			locServ.insertLocation(loc);
 			
 		}
 		
+		//If industry doesn't exist, create it
 		if(ind==null) {
 			ind = new Industry((String) lhMap.get("industry_name"));
 			indServ.insertIndustry(ind);
 		}
 		
+		//Create and insert the job posting item
 		JobPosting jp = new JobPosting(uServ.getUserByUserId((int)lhMap.get("poster_id")),
 				new Timestamp(System.currentTimeMillis()), (String) lhMap.get("title"),
 				(String) lhMap.get("description"),
@@ -157,29 +160,40 @@ public class JobPostingController {
 		return new ResponseEntity<>("Job Posting successfully created", HttpStatus.CREATED);
 	}
 
+
+	/**
+	 * Deletes a job posting with the job posting ID it is passed
+	 * @param id - id of job posting to delete
+	 * @return success message upon deletion with 404 status code, otherwise return 404 status code with null
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteJobPosting(@PathVariable("id") Integer id) {
 		JobPosting jp = new JobPosting();
 		try {
 			jp = jpServ.findByPrimaryKey(id);
 		} catch (JobPostingNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		if (jp == null) {
-			System.out.println("Hitting!!!!!!!!!!!!!!");
+			
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			try {
 				jpServ.deleteJobPosting(jp);
 			} catch (JobPostingNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			return new ResponseEntity<>("Job Posting successfully deleted", HttpStatus.OK);
 		}
 	}
 
+	/**
+	 * Gets a company name and returns its ID in the database
+	 * @param companyName - name of the company
+	 * @return the id if it is found with an OK Status code, otherwise return 404 not found.
+	 */
 	@GetMapping("/company-id/{companyName}")
 	public ResponseEntity<Integer> getCompanyIdByCompanyName(
 			@PathVariable("companyName") String companyName) {

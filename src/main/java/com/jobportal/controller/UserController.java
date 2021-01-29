@@ -28,6 +28,11 @@ import com.jobportal.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class act as a RESTFul controller that exposes endpoints for websites to use involving Users.
+ * The only role of this class is prepare data for the DAO and service layer
+ * @author darie
+ */
 @RestController
 @RequestMapping(value="/users")
 @AllArgsConstructor(onConstructor=@__(@Autowired))
