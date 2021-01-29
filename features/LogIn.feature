@@ -1,27 +1,13 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Feature: go to View Jobs page
-	As a candidate, I want to search for a job, and to do it, I need to go to the View Jobs page.
+Feature: BurntOut Login 
+	As a User, I wish to login to BurntOut using proper credentials
+	Scenario Outline: Logging into BurntOut 
+		Given a user is at the welcome page of BurntOut 
+		When a user inputs clicks the Sign in button
+		Then the user is redirected to the login page
+		When the user is at the Log in page 
+		And  the user enters their "<username>" and "<password>"
+		Then the user is redirected to the welcome screen
 	
-	Scenario Outline: applying for a job
-		Given a candidate has logged in
-		When the candidate clicks "View Jobs"
-		Then the candidate is redirected to the View Jobs page
-		
-	
-	
+	Examples: 
+		|username|password|
+		|darien	 |password|

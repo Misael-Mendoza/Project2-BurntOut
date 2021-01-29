@@ -1,5 +1,15 @@
 package com.example.runners;
 
-public class TestRunner {
+import org.junit.runner.RunWith;
 
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+		features = {"features/LogIn.feature"},
+		glue = {"com.example.gluecode"}
+	)
+public class TestRunner {
+	
 }
