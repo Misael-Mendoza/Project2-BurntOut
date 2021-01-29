@@ -28,6 +28,7 @@ import com.jobportal.service.CompanyService;
 import com.jobportal.service.IndustryService;
 import com.jobportal.service.JobPostingService;
 import com.jobportal.service.LocationService;
+import com.jobportal.service.UserService;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,7 @@ public class JobPostingController {
 	private CompanyService compServ;
 	private LocationService locServ;
 	private IndustryService indServ;
+	private UserService uServ;
 
 	@GetMapping("/all")
 	public ResponseEntity<List<JobPosting>> getAllJobPostings() {
@@ -145,7 +147,7 @@ public class JobPostingController {
 			indServ.insertIndustry(ind);
 		}
 		
-		JobPosting jp = new JobPosting(new User((int)lhMap.get("poster_id")),
+		JobPosting jp = new JobPosting(uServ.getUserByUserId((int)lhMap.get("poster_id")),
 				new Timestamp(System.currentTimeMillis()), (String) lhMap.get("title"),
 				(String) lhMap.get("description"),
 				loc,

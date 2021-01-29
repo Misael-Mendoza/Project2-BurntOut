@@ -15,7 +15,7 @@
 	<name>Project2Application</name>
 	<description>Demo project for Spring Boot</description>
 
-	<properties>
+	<properties> 
 		<java.version>1.8</java.version>
 	</properties>
 
