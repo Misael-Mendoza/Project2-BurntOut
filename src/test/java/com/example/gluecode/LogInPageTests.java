@@ -16,7 +16,6 @@ public class LogInPageTests {
 	public WelcomePage wp;
 	public LogIn lp;
 	public WelcomePage wp2;
-	public LogIn lp2;
 	
 
 @Given("a user is at the welcome page of BurntOut")
