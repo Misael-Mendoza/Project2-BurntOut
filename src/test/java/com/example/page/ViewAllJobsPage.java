@@ -18,8 +18,11 @@ public class ViewAllJobsPage {
 	@FindBy(tagName = "table")
 	public WebElement table;
 	
-	@FindBy(xpath = "//table/tbody/tr[3]/td[7]\"")
+	@FindBy(xpath = "//button[@id='4']")
 	public WebElement applyButton;
+	
+	/*@FindBy(xpath = "//table/tbody/tr[1]/td[4]\"")
+	public WebElement companyName;*/
 	
 	public ViewAllJobsPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
