@@ -15,8 +15,8 @@ public class ProfilePageTests {
 	public WelcomePage wp;
 	public Profile prof; 
 	
-	@When("the user is at the welcome screen")
-	public void the_user_is_at_the_welcome_screen() {
+	@When("the user is at their welcome screen")
+	public void the_user_is_at_their_welcome_screen() {
 		this.wp = new WelcomePage(BurntOutDriverUtility.driver);
 	    assertEquals("Welcome to BurntOut!", this.wp.header.getText());
 	}
