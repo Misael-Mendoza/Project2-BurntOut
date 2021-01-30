@@ -1,9 +1,7 @@
 package com.jobportal.controller;
 
 import java.sql.Blob;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -19,15 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobportal.Project2Application;
 import com.jobportal.exception.JobPostingNotFoundException;
 import com.jobportal.mail.ApplicationAlertMail;
 import com.jobportal.model.Application;
 import com.jobportal.model.ApplicationStatus;
-import com.jobportal.model.Blog;
-import com.jobportal.model.Company;
-import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
-import com.jobportal.model.Location;
 import com.jobportal.model.User;
 import com.jobportal.service.ApplicationService;
 import com.jobportal.service.ApplicationStatusService;
@@ -137,6 +132,7 @@ public class ApplicationController {
 			ApplicationAlertMail.sendApplicationAlert(jp.getPosterId().getEmail(), jp.getTitle(), String.valueOf(jp.getPostingId()));			
 		}catch(Exception e) {
 			e.printStackTrace();
+			Project2Application.log.info("[insertApplication] Error creating application");
 			return new ResponseEntity<>("Error Creating Application Alert", HttpStatus.NOT_FOUND);
 		}
 		Application app = new Application(
@@ -147,6 +143,7 @@ public class ApplicationController {
 				appStatus);
 		appServ.insertApplication(app);
 		
+		Project2Application.log.info("[insertApplication] Application successfully created");
 		return new ResponseEntity<> ("Application successfully created", HttpStatus.CREATED);
 	}
 	
@@ -161,7 +158,7 @@ public class ApplicationController {
 		try {
 			app = appServ.getApplicationById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			Project2Application.log.info("[deleteApplication] Error retreiving application to delete");
 			e.printStackTrace();
 		}
 		
@@ -171,9 +168,10 @@ public class ApplicationController {
 			try {
 				appServ.deleteApplication(app);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				Project2Application.log.info("[deleteApplication] Application could not be deleted");
 				e.printStackTrace();
 			}
+			Project2Application.log.info("[deleteApplication] Application successfully deleted");
 			return new ResponseEntity<>("Application successfully deleted", HttpStatus.OK);
 		}
 	}
@@ -189,7 +187,7 @@ public class ApplicationController {
 		try {
 			app = appServ.getApplicationById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			Project2Application.log.info("[approveApplication] Error retreiving application to approve");
 			e.printStackTrace();
 		}
 		
@@ -197,13 +195,14 @@ public class ApplicationController {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		} else {
 			try {
-				
 				app.setStatusId(appStatusServ.getStatusByStatus("Approved"));
 				appServ.updateApplication(app);
 			} catch (Exception e) {
+				Project2Application.log.info("[approveApplication] Error approving application");
 				e.printStackTrace();
 			}
-			return new ResponseEntity<>("Application successfully updated", HttpStatus.OK);
+			Project2Application.log.info("[approveApplication] Application successfully approved");
+			return new ResponseEntity<>("Application successfully approved", HttpStatus.OK);
 		}
 	}
 	
@@ -218,7 +217,7 @@ public class ApplicationController {
 		try {
 			app = appServ.getApplicationById(id);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			Project2Application.log.info("[denyApplication] Error retreiving application to reject");
 			e.printStackTrace();
 		}
 		
@@ -229,9 +228,11 @@ public class ApplicationController {
 				app.setStatusId(appStatusServ.getStatusByStatus("Rejected"));
 				appServ.updateApplication(app);
 			} catch (Exception e) {
+				Project2Application.log.info("[denyApplication] Error rejecting application");
 				e.printStackTrace();
 			}
-			return new ResponseEntity<>("Application successfully updated", HttpStatus.OK);
+			Project2Application.log.info("[denyApplication] Application successfully rejected");
+			return new ResponseEntity<>("Application successfully rejected", HttpStatus.OK);
 		}
 	}
 

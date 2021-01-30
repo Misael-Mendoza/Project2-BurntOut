@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobportal.Project2Application;
 import com.jobportal.model.Blog;
 import com.jobportal.model.User;
 import com.jobportal.service.BlogService;
@@ -38,8 +39,6 @@ public class BlogController {
 	@CrossOrigin(origins = "*")
 	@PostMapping(value="/add")
 	public ResponseEntity<String> insertBlog(@RequestBody LinkedHashMap bMap){
-		
-		
 		Date blogDate = new Date(System.currentTimeMillis());
 		Blog blog = new Blog(
 				new User((int) bMap.get("blogId")),
@@ -47,6 +46,7 @@ public class BlogController {
 				blogDate,
 				(String)bMap.get("message"));
 		blogServ.insertBlog(blog);
+		Project2Application.log.info("[insertBlog] Blog was created");
 		return new ResponseEntity<>("Blog Successfully Created!",HttpStatus.CREATED); 
 	}
 	
@@ -92,6 +92,7 @@ public class BlogController {
 	public ResponseEntity<String> deleteBlog(@PathVariable("id") int id){
 		Blog blog = blogServ.getBlogById(id);
 		blogServ.deleteBlog(blog);
+		Project2Application.log.info("[deleteBlog] Blog was deleted");
 		return new ResponseEntity<>("Blog Deleted!",HttpStatus.GONE);
 	}
 }
