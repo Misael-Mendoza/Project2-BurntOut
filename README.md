@@ -28,16 +28,29 @@ BurntOut is an application used by companies to post job openings and candidates
 - Agile
 
 ## List of Features Implemented:
-- A user can sign up
-A user can log in if correct combination of username and password is used
-- If the user role is Employee, then the following features are available: 
-  * The user can see their past tickets
-  * The user can submit a new request
-- If the user role is Finance Manager, then the following features are available:
-  * Continue as Employee and see their own tickets / submit a new request
-  * See all the tickets of all the employees
-  * Filter the tickest by status (Pending, Approved or Rejected)
-  * Approve / Reject any pending request, except for their own
+- A user can sign up (create an account). There are two roles available: candidate and recruiter.
+- The user can log in if correct combination of username and password is used.
+- If the user forgot their password, they can click the "Forgot Password?" link and indicate their email address. After that, a recovery code is sent to their email address that allows them to change their password.
+- The user can log out.
+- If the user role is Recruiter, then the following features are available: 
+  * The recruiter can create a job posting.
+  * The recruiter can see their own job postings.
+  * The recruiter can see all the applications submitted for their job postings and download the applicants' resumes.
+  * The recruiter can approve or reject applications.
+  * The recruiter can create a blog post and see blog posts of other users.
+  * The recruiter can see all the job postings.
+  * The recruiter can search for job postings by job title, by location, by company name or by industry.
+  * The recruiter can see other users' profiles (including their applicants' profiles).
+  * The recruiter can see and edit their own profile.
+- If the user role is Candidate, then the following features are available:
+  * The candidate can see all the job postings.
+  * The candidate can search for job postings by job title, by location, by company name or by industry.
+  * The candidate can apply for any job in the Job list.
+  * The candidate can see their own applications and their status.
+  * The candidate can create a blog post and see blog posts of other users.
+  * The candidate can see other users' profiles.
+  * The candidate can see and edit their own profile.
+- Even if the user is not logged in, they can still see all the job postings and search for job postings by job title, by location, by company name or by industry.
   
 ## To-do List:
 - Log out functionality
