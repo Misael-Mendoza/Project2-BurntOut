@@ -29,6 +29,9 @@ public class CandidatePage {
 	@FindBy(linkText = "View Jobs")
 	public WebElement viewJobsLink;
 	
+	@FindBy(linkText = "View Applications")
+	public WebElement viewApplicationsLink;
+	
 	@FindBy(xpath = "//button [@id = 'profile-button']")
 	public WebElement profileButton;
 	
@@ -53,6 +56,10 @@ public class CandidatePage {
 	
 	public void clickViewJobsLink() {
 		viewJobsLink.click();
+	}
+	
+	public void clickViewApplicationsLink() {
+		viewApplicationsLink.click();
 	}
 	
 	public void clickProfileButtonLink() {

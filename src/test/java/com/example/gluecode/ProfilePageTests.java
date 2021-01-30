@@ -26,7 +26,7 @@ public class ProfilePageTests {
 	}
 	@Then("the user is redirected to their profile page")
 	public void the_user_is_redirected_to_their_profile_page() {
-		assertEquals("http://localhost:4200/profile/johnjacobelli", BurntOutDriverUtility.driver.getCurrentUrl());
+		assertEquals("http://localhost:4200/profile/atversky", BurntOutDriverUtility.driver.getCurrentUrl());
 	}
 	@When("the user is at their profile")
 	public void the_user_is_at_their_profile() {
@@ -52,11 +52,11 @@ public class ProfilePageTests {
 	@When("the user's changes are submitted")
 	public void the_user_s_changes_are_submitted() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(1);
-		assertEquals("http://localhost:4200/profile/johnjacob", BurntOutDriverUtility.driver.getCurrentUrl());
+		assertEquals("http://localhost:4200/profile/tversky", BurntOutDriverUtility.driver.getCurrentUrl());
 	}
 	@Then("the user can see the reflected changes")
 	public void the_user_can_see_the_reflected_changes() {
-		assertEquals("johnjacob", this.prof.username.getText());
+		assertEquals("tversky", this.prof.username.getText());
 	}
 	@Then("the user can change them back")
 	public void the_user_can_change_them_back() {
@@ -77,11 +77,11 @@ public class ProfilePageTests {
 	@When("the user submits the old info")
 	public void the_user_submits_the_old_info() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(1);
-		assertEquals("http://localhost:4200/profile/johnjacobelli", BurntOutDriverUtility.driver.getCurrentUrl());
+		assertEquals("http://localhost:4200/profile/atversky", BurntOutDriverUtility.driver.getCurrentUrl());
 	}
 	@Then("the user has the same info as when they logged in")
 	public void the_user_has_the_same_info_as_when_they_logged_in() {
-		assertEquals("johnjacobelli", this.prof.username.getText());
+		assertEquals("atversky", this.prof.username.getText());
 	}
 
 }

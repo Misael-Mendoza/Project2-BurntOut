@@ -9,5 +9,5 @@ Feature: BurntOut Sign Up
 		Then the user is redirected to the welcome page
 		
 	Examples:
-		|firstName|lastName|email         |username|password|
-		|Ryan     |Curley  |r@c.com|ryanc3po|temppass|
+		|firstName  |lastName  |email         |username |password|
+		|Daniel     |Kanneman  |dk@gmail.com  |thinking |slow    |

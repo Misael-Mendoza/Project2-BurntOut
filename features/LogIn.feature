@@ -9,5 +9,5 @@ Feature: BurntOut Login
 		Then the user is redirected to the welcome screen
 	
 	Examples: 
-		|username|password|
-		|darien	 |password|
+		|username        |password|
+		|olgamelnikoff	 |password|

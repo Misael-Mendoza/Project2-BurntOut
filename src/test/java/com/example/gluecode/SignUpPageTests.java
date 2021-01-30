@@ -56,6 +56,6 @@ public class SignUpPageTests {
 	public void the_user_is_redirected_to_the_welcome_page() throws InterruptedException {
 	    TimeUnit.SECONDS.sleep(2);
 	    this.welcomePage2 = new WelcomePage(BurntOutDriverUtility.driver);
-	    assertEquals(this.welcomePage2.header.getText(), "Welcome to BurntOut!");
+	    assertEquals(this.welcomePage2.header.getText(), "Register for BurntOut!");
 	}
 }

@@ -10,7 +10,7 @@ import io.cucumber.java.Before;
 
 public class BurntOutDriverUtility {
 	public static WebDriver driver;
-	public static final String url = "http://localhost:4200";
+	public static final String url = "http://localhost:4200/";
 	
 	@Before
 	public void setUp() {
@@ -18,9 +18,6 @@ public class BurntOutDriverUtility {
 		System.setProperty("webdriver.chrome.driver", filePath);
 		driver = new ChromeDriver();
 		driver.get(url);
-		
-
-		
 	}
 	
 	@After

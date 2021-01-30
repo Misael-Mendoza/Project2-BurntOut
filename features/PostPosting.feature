@@ -19,8 +19,8 @@ Feature: Post Job Posting
 	
 	Examples:
 	
-	|jobtitle|location|industry|description|username|password|
-	|Selenium| Sel,IM |Selenium|Description|darien  |password|
+	|jobtitle|location|industry|description|username      |password|
+	|Selenium| Sel,IM |Selenium|Description|spacexdragon  |password|
 	
 	
 	

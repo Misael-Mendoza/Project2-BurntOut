@@ -17,5 +17,5 @@ Feature: Getting to the blog page
 		Then the user will create a new post
 	
 	Examples:
-		|username|password|blogTitle|message|
-		|darien  |password|testC    |testC  |
+		|username       |password|blogTitle       |message       |
+		|olgamelnikoff  |password|Hello World!    |Hello World!  |
