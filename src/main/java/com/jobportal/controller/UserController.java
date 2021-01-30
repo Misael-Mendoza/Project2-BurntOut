@@ -43,13 +43,19 @@ public class UserController {
 	private UserRoleService userRoleServ;
 	private CompanyService compServ;
 	
+	/**
+	 * Method for posting a new user to the database
+	 * @param uMap (JSON object)
+	 * @return 201 response if user is created, 406 if user with those details already exists
+	 * @throws UserNotFoundException
+	 */
 	@CrossOrigin(origins = "*")
 	@PostMapping("/newuser")
 	public ResponseEntity<String> insertUser(@RequestBody LinkedHashMap uMap) throws UserNotFoundException {
 		UserRole userRole = userRoleServ.getRoleByName((String)uMap.get("userRole"));
 		Company company = compServ.getCompanyByName((String)uMap.get("company"));
 		
-		if(company == null) {
+		if(company == null) {	//if the company a user enters doesn't exist in the database, this adds it to the database
 			company = new Company((String)uMap.get("company"));
 			compServ.insertCompany(company);
 		}
@@ -59,11 +65,11 @@ public class UserController {
 
 		try {
 			userServ.insertUser(user);
-			userServ.encryptPassword(user.getUsername(), user.getPassword());
-		} catch(UserAlreadyExistsException e) {
+			userServ.encryptPassword(user.getUsername(), user.getPassword()); 
+		} catch(UserAlreadyExistsException e) { //occurs if username/email already exist in the database
 			e.printStackTrace();
 			return new ResponseEntity<>("User with those details already exists", HttpStatus.NOT_ACCEPTABLE);
-		} catch(NoSuchAlgorithmException nsae) {
+		} catch(NoSuchAlgorithmException nsae) { //should never occur because the algorithm is hard-coded
 			nsae.printStackTrace();
 			return new ResponseEntity<>("Encryption failed for some reason", HttpStatus.NOT_ACCEPTABLE);
 		}
@@ -71,6 +77,11 @@ public class UserController {
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
 	}
 	
+	/**
+	 * Method to verify a user's credentials for logging in
+	 * @param uMap (JSON object)
+	 * @return 200 response and the user object matching the credentials, 404 response if the user wasn't found, 406 response if verification failed
+	 */
 	@CrossOrigin(origins = "*")
 	@PostMapping("/login")
 	public ResponseEntity<User> postLogin(@RequestBody LinkedHashMap uMap) {
@@ -94,15 +105,19 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Method to send a recovery email if the user forgot their password
+	 * @param rMap (JSON object containing email)
+	 * @return 200 response if the email was successfully sent, 400 if an exception was thrown
+	 */
 	@CrossOrigin(origins = "*")
 	@PostMapping("/recover")
 	public ResponseEntity<String> postRecover(@RequestBody LinkedHashMap rMap) {
 		String email = (String)rMap.get("email");
 		try {
-			//making a security code for the recovery email and storing it in the salt column of the user's db record
+			//making a security code for the recovery email and storing it in the salt column of the user's db record, therefore login will not work until the password is reset
 			String securityCode = String.valueOf(userServ.generateSecurityCode());
 			User resetUser = userServ.getUserByEmail(email);
-//			securityCode = userServ.encryptSecurityCode(securityCode);
 			resetUser.setSalt(securityCode);
 			userServ.updateUser(resetUser);
 			userServ.sendRecoveryEmail(email, securityCode);
@@ -112,7 +127,12 @@ public class UserController {
 			return new ResponseEntity<>("A problem occurred", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	/**
+	 * Method to set the user's new password if they requested a password reset
+	 * @param passMap (JSON object containing security code as 'username' and new password
+	 * @return 202 response if password was successfully reset, 400 if an error occured in encryption, 404 if security code does not match any users
+	 */
 	@CrossOrigin(origins = "*")
 	@PostMapping("/passwordreset")
 	public ResponseEntity<String> putPassReset(@RequestBody LinkedHashMap passMap) {
@@ -135,6 +155,10 @@ public class UserController {
 		
 	}
 	
+	/**
+	 * Returns all Users
+	 * @return list of users in database
+	 */
 	@GetMapping("/all")
 	public ResponseEntity<List<User>> getAllUsers(){
 		List<User> userList = userServ.getAllUsers();
@@ -145,6 +169,11 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Find user by username
+	 * @param username
+	 * @return user with that username
+	 */
 	@CrossOrigin(origins = "*")
 	@GetMapping("/username/{username}")
 	public ResponseEntity<User> getUserByUsername(@PathVariable("username") String username){
@@ -156,6 +185,11 @@ public class UserController {
 		}
 	}
 	
+	/**
+	 * Find user by email
+	 * @param email
+	 * @return user with that email
+	 */
 	@GetMapping("/email/{email}")
 	public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
 		User user = userServ.getUserByEmail(email);
@@ -166,28 +200,11 @@ public class UserController {
 		}
 	}
 	
-//	@GetMapping("/userRole/{userRoleId}")
-//	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("userRoleId") int userRoleId) {
-//		UserRole userRole = userRoleServ.getRoleById(userRoleId);
-//		List<User> userList = userServ.getUsersByRole(userRole);
-//		if(userList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(userList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/company/{companyId}")
-//	public ResponseEntity<List<User>> getUsersByCompany(@PathVariable("companyId") int companyId) {
-//		Company company = compServ.getCompanyById(companyId);
-//		List<User> userList = userServ.getUsersByCompany(company);
-//		if(userList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(userList, HttpStatus.OK);
-//		}
-//	}
-	
+	/**
+	 * Updates a user's information
+	 * @param hashMap (JSON object containing user's new information)
+	 * @return 200 response if user successfully updated, 404 if user with that id does not exist in the database
+	 */
 	@CrossOrigin(origins = "*")
 	@PutMapping()
 	public ResponseEntity<User> putUser(@RequestBody LinkedHashMap hashMap) {
