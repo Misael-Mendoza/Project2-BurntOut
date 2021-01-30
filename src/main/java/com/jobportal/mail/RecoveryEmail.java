@@ -10,7 +10,22 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.jobportal.model.User;
+import com.jobportal.repository.UserRepository;
+import com.jobportal.service.UserService;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@Service
+@AllArgsConstructor(onConstructor=@__(@Autowired))
+@NoArgsConstructor
 public class RecoveryEmail {
+	
+	private UserRepository uRepo;
 	
 	/**
 	 * Method to send a recovery email if a user requests one
@@ -18,7 +33,7 @@ public class RecoveryEmail {
 	 * @param securityCode - 6 digit randomly generated code to verify a user's authenticity when they are resetting their password
 	 * @throws Exception - multiple exceptions that mail throws if something has gone wrong
 	 */
-	public static void sendRecoveryMail(String recipient, String securityCode) throws Exception {
+	public static void sendRecoveryMail(String recipient, String securityCode, String address, String pass) throws Exception {
 		
 		System.out.println("attempting to send recovery email");
 		
@@ -31,8 +46,9 @@ public class RecoveryEmail {
 		properties.put("mail.smtp.port", "587");
 		
 		//gmail account credentials
-		String myEmailAccount = "burntoutrecovery@gmail.com";
-		String password = "burningup21";
+//		User fakeUser = uRepo.findByUsername("ryan");
+		String myEmailAccount = address;
+		String password = pass;
 		
 		//creates a session in gmail to send the email
 		Session session = Session.getInstance(properties, new Authenticator() {
