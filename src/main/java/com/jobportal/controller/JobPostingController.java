@@ -1,13 +1,11 @@
 package com.jobportal.controller;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobportal.Project2Application;
 import com.jobportal.exception.JobPostingNotFoundException;
 import com.jobportal.model.Company;
 import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
 import com.jobportal.model.Location;
-import com.jobportal.model.User;
 import com.jobportal.service.CompanyService;
 import com.jobportal.service.IndustryService;
 import com.jobportal.service.JobPostingService;
@@ -116,7 +114,6 @@ public class JobPostingController {
 	}
 	
 	
-	
 	/**
 	 * Attempts to insert a new job posting with the form information is is passed in the body
 	 * @param lhMap - LinkedHashedMap of the form values for creating a job posting - poster_id, title, description, location_name, industry_name, company_name)
@@ -140,7 +137,6 @@ public class JobPostingController {
 		if(loc==null) {
 			loc = new Location((String)lhMap.get("location_name"));
 			locServ.insertLocation(loc);
-			
 		}
 		
 		//If industry doesn't exist, create it
@@ -157,6 +153,7 @@ public class JobPostingController {
 				ind,
 				new Company((int)lhMap.get("company_id")));
 		jpServ.insertJobPosting(jp);
+		Project2Application.log.info("[insertJobPosting] Job Posting successfully created");
 		return new ResponseEntity<>("Job Posting successfully created", HttpStatus.CREATED);
 	}
 
@@ -185,6 +182,7 @@ public class JobPostingController {
 				
 				e.printStackTrace();
 			}
+			Project2Application.log.info("[deleteJobPosting] Job Posting successfully deleted");
 			return new ResponseEntity<>("Job Posting successfully deleted", HttpStatus.OK);
 		}
 	}

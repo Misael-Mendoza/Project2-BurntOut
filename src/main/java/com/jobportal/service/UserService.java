@@ -61,7 +61,10 @@ public class UserService {
 	public void sendRecoveryEmail(String email, String securityCode) throws UserNotFoundException {
 		if(userRepo.findByEmail(email)!=null) {
 			try {
-				RecoveryEmail.sendRecoveryMail(email, securityCode);
+				User creds = userRepo.findByUserId(1);
+				String address = creds.getEmail();
+				String pass = creds.getFirstName();
+				RecoveryEmail.sendRecoveryMail(email, securityCode, address, pass);
 			} catch(Exception e) {
 				e.printStackTrace();
 			} 

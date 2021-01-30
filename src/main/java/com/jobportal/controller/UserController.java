@@ -1,6 +1,7 @@
 package com.jobportal.controller;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jobportal.Project2Application;
 import com.jobportal.exception.UserAlreadyExistsException;
 import com.jobportal.exception.UserNotFoundException;
 import com.jobportal.model.Company;
@@ -62,12 +64,15 @@ public class UserController {
 			userServ.encryptPassword(user.getUsername(), user.getPassword());
 		} catch(UserAlreadyExistsException e) {
 			e.printStackTrace();
+			Project2Application.log.info("[insertUser] New user creation attempt, but user with the information already exists");
 			return new ResponseEntity<>("User with those details already exists", HttpStatus.NOT_ACCEPTABLE);
 		} catch(NoSuchAlgorithmException nsae) {
 			nsae.printStackTrace();
+			Project2Application.log.info("[insertUser] Encryption failed for new user, could not created");
 			return new ResponseEntity<>("Encryption failed for some reason", HttpStatus.NOT_ACCEPTABLE);
 		}
 		
+		Project2Application.log.info("[insertUser] New user created");
 		return new ResponseEntity<>("User Successfully Created!", HttpStatus.CREATED);
 	}
 	
@@ -85,11 +90,14 @@ public class UserController {
 		try {
 			isVerified = userServ.verifyUser(username, password);
 		} catch(NoSuchAlgorithmException e) {
+			Project2Application.log.info("[postLogin] User login attempt, verification failed");
 			e.printStackTrace();
 		}
 		if(isVerified) {
+			Project2Application.log.info("[postLogin] User logged in");
 			return new ResponseEntity<>(userServ.getUserByUsername(username), HttpStatus.OK);
 		} else {
+			Project2Application.log.info("[postLogin] User login attempt, invalid credentials");
 			return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
@@ -99,16 +107,16 @@ public class UserController {
 	public ResponseEntity<String> postRecover(@RequestBody LinkedHashMap rMap) {
 		String email = (String)rMap.get("email");
 		try {
-			//making a security code for the recovery email and storing it in the salt column of the user's db record
 			String securityCode = String.valueOf(userServ.generateSecurityCode());
 			User resetUser = userServ.getUserByEmail(email);
-//			securityCode = userServ.encryptSecurityCode(securityCode);
 			resetUser.setSalt(securityCode);
 			userServ.updateUser(resetUser);
 			userServ.sendRecoveryEmail(email, securityCode);
+			Project2Application.log.info("[postRecover] Recovery email sent to user");
 			return new ResponseEntity<>("An email has been sent with instructions to reset your password", HttpStatus.OK);
 		} catch(Exception e) {
 			e.printStackTrace();
+			Project2Application.log.info("[postRecover] Recovery email could not be sent to user");
 			return new ResponseEntity<>("A problem occurred", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -123,13 +131,16 @@ public class UserController {
 			user.setPassword((String)passMap.get("password"));
 			try {
 				userServ.encryptPassword(user.getUsername(), user.getPassword());
-				userServ.updateUser(user);		
+				userServ.updateUser(user);
+				Project2Application.log.info("[putPassReset] Password was reset for a user");
 				return new ResponseEntity<>("Password successfully reset", HttpStatus.ACCEPTED);
 			}catch(Exception e) {
 				e.printStackTrace();
+				Project2Application.log.info("[putPassReset] Error when resetting password");
 				return new ResponseEntity<>("An error has occured", HttpStatus.BAD_REQUEST);
 			}
 		}else {
+			Project2Application.log.info("[putPassReset] Incorrect security code input for password reset");
 			return new ResponseEntity<>("Security Code unable to be verified", HttpStatus.NOT_FOUND);
 		}
 		
@@ -166,27 +177,6 @@ public class UserController {
 		}
 	}
 	
-//	@GetMapping("/userRole/{userRoleId}")
-//	public ResponseEntity<List<User>> getUsersByUserRole(@PathVariable("userRoleId") int userRoleId) {
-//		UserRole userRole = userRoleServ.getRoleById(userRoleId);
-//		List<User> userList = userServ.getUsersByRole(userRole);
-//		if(userList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(userList, HttpStatus.OK);
-//		}
-//	}
-//	
-//	@GetMapping("/company/{companyId}")
-//	public ResponseEntity<List<User>> getUsersByCompany(@PathVariable("companyId") int companyId) {
-//		Company company = compServ.getCompanyById(companyId);
-//		List<User> userList = userServ.getUsersByCompany(company);
-//		if(userList.size()==0) {
-//			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//		} else {
-//			return new ResponseEntity<>(userList, HttpStatus.OK);
-//		}
-//	}
 	
 	@CrossOrigin(origins = "*")
 	@PutMapping()
@@ -212,19 +202,23 @@ public class UserController {
 				
 				try {
 					userServ.updateUser(user);
+					Project2Application.log.info("[putUser] User information updated successfully");
 					return new ResponseEntity<>(user, HttpStatus.OK);
 				} catch (UserNotFoundException e) {
 					e.printStackTrace();
+					Project2Application.log.info("[putUser] User information unsuccessfully updated");
 					return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 				}
 			}
 			
 			else {
+				Project2Application.log.info("[putUser] User information update attempt: same email as another user");
 				return new ResponseEntity<>(userByEmail, HttpStatus.METHOD_NOT_ALLOWED);
 			}
 		}
 		
 		else {
+			Project2Application.log.info("[putUser] User information update attempt: same username as another user");
 			return new ResponseEntity<>(userByUsername, HttpStatus.NOT_ACCEPTABLE);
 		}
 	}
