@@ -69,57 +69,9 @@ public class ApplyForJobTests {
 	public void the_candidate_is_redirected_to_the_view_jobs_page() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(2);
 		this.vajp = new ViewAllJobsPage (BurntOutDriverUtility.driver);
-		TimeUnit.SECONDS.sleep(10);
+		TimeUnit.SECONDS.sleep(2);
 		assertEquals(this.vajp.title.getText(), "Search for a job");
 		TimeUnit.SECONDS.sleep(2);
-	}
-	
-	@When("the candidate inputs the {string} to the Search bar")
-	public void the_candidate_inputs_the_to_the_search_bar(String string) throws InterruptedException {
-		 this.vajp.searchForJobByTitle(string);
-		 TimeUnit.SECONDS.sleep(10);
-	}
-	
-	@When("the candidate inputs {string} to the Search bar")
-	public void the_candidate_inputs_to_the_search_bar(String string) throws InterruptedException {
-		 this.vajp.searchForJobByTitle(string);
-		 TimeUnit.SECONDS.sleep(2);
-	}
-
-	@Then("the job postings corresponding to the search show up")
-	public void the_job_postings_corresponding_to_the_search_show_up() throws InterruptedException {
-		TimeUnit.SECONDS.sleep(2);
-	}
-	@Then("the candidate clears the Search Bar")
-	public void the_candidate_clears_the_search_bar() throws InterruptedException {
-	    this.vajp.clearInput();
-	    TimeUnit.SECONDS.sleep(5);
-	}
-	
-	@When("the candidate inputs the 3rd {string} to the Search bar")
-	public void the_candidate_inputs_the_3rd_to_the_search_bar(String string) throws InterruptedException {
-		 this.vajp.searchForJobByTitle(string);
-		 TimeUnit.SECONDS.sleep(3);
-		 TimeUnit.SECONDS.sleep(3);
-	}
-	
-	@When("the candidate inputs the 4th {string} to the Search bar")
-	public void the_candidate_inputs_the_4th_to_the_search_bar(String string) throws InterruptedException {
-		 this.vajp.searchForJobByTitle(string);
-		 TimeUnit.SECONDS.sleep(1);
-		 TimeUnit.SECONDS.sleep(2);
-	}
-
-	@Then("the job postings corresponding to another search show up")
-	public void the_job_postings_corresponding_to_another_search_show_up() throws InterruptedException {
-		TimeUnit.SECONDS.sleep(2);
-		TimeUnit.SECONDS.sleep(1);
-	}
-	@Then("the candidate clears the Search Bar again")
-	public void the_candidate_clears_the_search_bar_again() throws InterruptedException {
-	    this.vajp.clearInput();
-	    TimeUnit.SECONDS.sleep(3);
-	    TimeUnit.SECONDS.sleep(3);
 	}
 
 	@When("the candidate clicks the Apply button for the chosen posting")
@@ -140,16 +92,17 @@ public class ApplyForJobTests {
 	@When("the candidate clicks Submit Application")
 	public void the_candidate_clicks_submit_application() throws InterruptedException {
 		this.ap.clickSubmitButton();
-		TimeUnit.SECONDS.sleep(15);
-		//BurntOutDriverUtility.driver.switchTo().alert().accept();
-		TimeUnit.SECONDS.sleep(5);
+		TimeUnit.SECONDS.sleep(3);
+		BurntOutDriverUtility.driver.switchTo().alert().accept();
+		TimeUnit.SECONDS.sleep(3);
 	}
 	@Then("the application is submitted")
 	public void the_application_is_submitted() throws InterruptedException {
-		TimeUnit.SECONDS.sleep(5);
+		this.ap.clickViewApplicationsLink();
+		TimeUnit.SECONDS.sleep(3);
 		this.vap = new ViewApplications(BurntOutDriverUtility.driver);
-		TimeUnit.SECONDS.sleep(5);
-		//Make sure it was added to the table of job postings
+		TimeUnit.SECONDS.sleep(3);
+		//Make sure it was added to the table of application postings
 		//assertEquals(this.ap., this.vap.checkLastTitleAdded());
 		assertEquals("http://localhost:4200/view-applications", BurntOutDriverUtility.driver.getCurrentUrl());
 	

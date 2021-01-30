@@ -9,14 +9,6 @@ Feature: Applying For A Job
 		Then the user is redirected to the candidate screen
 		When the candidate clicks the View Jobs link"
 		Then the candidate is redirected to the View Jobs page
-		When the candidate inputs the "<jobTitle>" to the Search bar
-		When the candidate inputs "<anotherJobTitle>" to the Search bar
-		Then the job postings corresponding to the search show up
-		And the candidate clears the Search Bar
-		When the candidate inputs the 3rd "<3rdTitle>" to the Search bar
-		When the candidate inputs the 4th "<4thTitle>" to the Search bar
-		Then the job postings corresponding to another search show up
-		And the candidate clears the Search Bar again
 		When the candidate clicks the Apply button for the chosen posting
 		Then the candidate is redirected to the Submit Application screen
 		But the only information the candidate provides is the resume

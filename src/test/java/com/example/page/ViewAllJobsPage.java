@@ -12,6 +12,9 @@ public class ViewAllJobsPage {
 	@FindBy(tagName = "h1")
 	public WebElement title;
 	
+	@FindBy(linkText = "View Applications")
+	public WebElement viewApplicationsLink;
+	
 	@FindBy(xpath = "//input[@id = 'input-field']")
 	public WebElement input;
 	
@@ -50,5 +53,9 @@ public class ViewAllJobsPage {
 	
 	public void clickApplyButton() {
 		this.applyButton.click();
+	}
+	
+	public void clickViewApplicationsLink() {
+		viewApplicationsLink.click();
 	}
 }

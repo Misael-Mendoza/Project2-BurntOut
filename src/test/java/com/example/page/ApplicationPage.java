@@ -24,6 +24,9 @@ public class ApplicationPage {
 	@FindBy(id="submit")
 	public WebElement submitButton;
 	
+	@FindBy(linkText = "View Applications")
+	public WebElement viewApplicationsLink;
+	
 	public ApplicationPage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 	}
@@ -34,6 +37,10 @@ public class ApplicationPage {
 	
 	public void clickSubmitButton() {
 		this.submitButton.click();
+	}
+	
+	public void clickViewApplicationsLink() {
+		viewApplicationsLink.click();
 	}
 
 }
