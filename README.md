@@ -71,4 +71,4 @@ Team Lead: Darien Sosa.
 Team Members: Ryan Curley, Misael Mendoza, John Jacobelli, and Olga Melnikova.
 
 ## License information
-
+This project uses the following license: https://github.com/olgamelnikoff/Project2-BurntOut/blob/main/LICENSE
