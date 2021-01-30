@@ -56,17 +56,26 @@ public class BlogControllerUnitTest {
 		when(bServ.getBlogByTitle("Hello")).thenReturn(blog);
 	}
 	
+	/* Tests that the controller to get add a blog posts behaves as expected when hitting the corresponding endpoint. Also tests to make sure that we receive the
+	 * correct data and the correct status code from the server.	
+	*/
 	@Test
 	public void postBlogTest() throws Exception{
 		mock.perform(post("/blogs/add").contentType(MediaType.APPLICATION_JSON).content(new ObjectMapper().writeValueAsString(blog)))
 		.andExpect(status().isCreated()).andExpect(jsonPath("$").value("Blog Successfully Created!"));
 	}
 	
+	/* Tests that the controller to get delete a blog post behaves as expected when hitting the corresponding endpoint. Also tests to make sure that we receive the
+	 * correct data and the correct status code from the server.	
+	*/
 	@Test 
 	public void deleteBlogTest() throws Exception{
 		mock.perform(delete("/blogs/{id}",blog.getBlogId())).andExpect(status().isGone()).andExpect(jsonPath("$").value("Blog Deleted!"));
 	}
 	
+	/* Tests that the controller to get all blog posts behaves as expected when hitting the corresponding endpoint. Also tests to make sure that we receive the
+	 * correct data and the correct status code from the server.	
+	*/
 	@Test
 	public void getBlogTest() throws Exception{
 		mock.perform(get("/blogs/title/{title}",blog.getBlogTitle())).andExpect(status().isOk()).andExpect(jsonPath("$.blogTitle",is(blog.getBlogTitle())))

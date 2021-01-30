@@ -61,6 +61,7 @@ public class Blog {
 		this.owner = ownerId.getUsername();
 	}
 	
+	
 	public Blog(User ownerId, String blogTitle, Date date, String blogContent) {
 		super();
 		this.ownerId = ownerId;

@@ -11,6 +11,11 @@ import com.jobportal.model.Industry;
 import com.jobportal.model.JobPosting;
 import com.jobportal.model.Location;
 
+/**
+ * This interfaces acts as a way to query the database, it's only role is to do queries involving job postings.
+ * It uses Spring Data to construct its queries
+ * @author darie
+ */
 @Repository
 public interface JobPostingRepository extends JpaRepository <JobPosting, Integer> {
 	

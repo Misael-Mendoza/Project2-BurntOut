@@ -37,6 +37,11 @@ import com.jobportal.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class act as a RESTFul controller that exposes endpoints for websites to use involving Applications.
+ * The only role of this class is prepare data for the DAO and service layer
+ * @author darie
+ */
 @RestController
 @RequestMapping(value = "/application")
 @CrossOrigin(origins = "*")
@@ -49,6 +54,10 @@ public class ApplicationController {
 	private UserService userServ;
 	private JobPostingService jpServ;
 	
+	/**
+	 * Gets all the applications on the database.
+	 * @return List of applications with OK status code if it succeeds, else it returns null and a 404 error.
+	 */
 	@GetMapping("/all")
 	public ResponseEntity<List<Application>> getAllJobPostings() {
 		List<Application> appList = appServ.getAllApplications();
@@ -59,6 +68,12 @@ public class ApplicationController {
 		}
 	}
 	
+
+	/**
+	 * Gets one application by application id
+	 * @param id - Id of the application
+	 * @return application if it is found and OK status code, otherwise return a null value with a 404 code
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Application> getJobPostingBy(@PathVariable("id") int id) {
 		Application app = appServ.getApplicationById(id);
@@ -69,6 +84,11 @@ public class ApplicationController {
 		}
 	}
 	
+	/**
+	 * Get all applications belong to a certain username
+	 * @param username - username to find applications by on the database.
+	 * @return - all applications for this user with an OK code, other return a 404 code
+	 */
 	@GetMapping("/user/{username}")
 	public ResponseEntity<List<Application>> getApplicationsByUser(@PathVariable("username") String username) {
 		User user = userServ.getUserByUsername(username);
@@ -81,6 +101,13 @@ public class ApplicationController {
 		}
 	}
 	
+	
+	/**
+	 * Get all applications that belong to a certain job posting by that job postings Id
+	 * @param jpId - id of the job posting
+	 * @return a list of applications and OK status code if it was found, return 404 not found if it can't find it
+	 * @throws JobPostingNotFoundException - throw an exception if it could not be found
+	 */
 	@GetMapping("/jobposting/{id}")
 	public ResponseEntity<List<Application>> getApplicationsByJobPosting(@PathVariable("id") int jpId) throws JobPostingNotFoundException {
 		JobPosting jp = jpServ.findByPrimaryKey(jpId);
@@ -93,6 +120,13 @@ public class ApplicationController {
 		}
 	}
 	
+	/**
+	 * Posts a job application with the information passed in through the linkedhashmap
+	 * @param appMap - Map of the applications form.
+	 * @return success message and created status code if it succeeds, otherwise return 404 and error message
+	 * @throws NumberFormatException
+	 * @throws JobPostingNotFoundException
+	 */
 	@PostMapping()
 	public ResponseEntity<String> insertApplication(@RequestBody LinkedHashMap appMap) 
 			throws NumberFormatException, JobPostingNotFoundException {
@@ -116,6 +150,11 @@ public class ApplicationController {
 		return new ResponseEntity<> ("Application successfully created", HttpStatus.CREATED);
 	}
 	
+	/**
+	 * Deletes an application by its Id
+	 * @param id - id of application to delete
+	 * @return - success message if it was successfully deleted with ok status code, otherwise return 404 status code
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteApplication(@PathVariable("id") Integer id) {
 		Application app = new Application();
@@ -139,6 +178,11 @@ public class ApplicationController {
 		}
 	}
 	
+	/**
+	 * Changes the status of an application to Accepted
+	 * @param id of application to accept
+	 * @return success message with ok status code if it was accepted, if it fails return 404.
+	 */
 	@PostMapping("/approve/{id}")
 	public ResponseEntity<String> approveApplication(@PathVariable("id") Integer id) {
 		Application app = new Application();
@@ -163,6 +207,11 @@ public class ApplicationController {
 		}
 	}
 	
+	/**
+	 * Changes the status of an application to rejected
+	 * @param id of application to reject
+	 * @return success message with ok status code if it was rejected, if it fails return 404.
+	 */
 	@PostMapping("/reject/{id}")
 	public ResponseEntity<String> denyApplication(@PathVariable("id") Integer id) {
 		Application app = new Application();
