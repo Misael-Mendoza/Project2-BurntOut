@@ -21,5 +21,5 @@ Feature: Applying For A Job
 		
 	Examples: 
 		|username        |password     |	jobTitle  | 	anotherJobTitle  |
-		|olgamelnikoff	 |olgamelnikoff|	J         |		A				 |
+		|olgamelnikoff	 |olgamelnikoff|	J         |		a				 |
 		
