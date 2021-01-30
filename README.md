@@ -5,13 +5,13 @@ BurntOut is an application used by companies to post job openings and candidates
 
 
 ## Technologies Used
-- Java
+- Java 8
 - Spring Boot
 - Spring Data
 - Angular 2+
 - HTML
 - CSS
-- JUnit
+- JUnit 4
 - Spring Test
 - Selenium
 - Karma
@@ -71,4 +71,4 @@ Team Lead: Darien Sosa.
 Team Members: Ryan Curley, Misael Mendoza, John Jacobelli, and Olga Melnikova.
 
 ## License information
-This project uses the following license: https://github.com/olgamelnikoff/Project2-BurntOut/blob/main/LICENSE
+This project uses the following license: [Apache License 2.0](LICENSE)
