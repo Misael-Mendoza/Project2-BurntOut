@@ -129,7 +129,10 @@ public class ApplicationController {
 		ApplicationStatus appStatus = appStatusServ.getStatusByStatus("Pending");
 		JobPosting jp = jpServ.findByPrimaryKey(Integer.parseInt((String)appMap.get("posting_id")));
 		try {
-			ApplicationAlertMail.sendApplicationAlert(jp.getPosterId().getEmail(), jp.getTitle(), String.valueOf(jp.getPostingId()));			
+			User creds = userServ.getUserByUserId(2);
+			String address = creds.getEmail();
+			String pass = creds.getFirstName();
+			ApplicationAlertMail.sendApplicationAlert(jp.getPosterId().getEmail(), jp.getTitle(), String.valueOf(jp.getPostingId()), address, pass);			
 		}catch(Exception e) {
 			e.printStackTrace();
 			Project2Application.log.info("[insertApplication] Error creating application");

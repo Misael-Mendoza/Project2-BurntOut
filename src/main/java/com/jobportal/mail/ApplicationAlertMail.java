@@ -19,7 +19,7 @@ public class ApplicationAlertMail {
 	 * @param jobId - ID of the job posting
 	 * @throws Exception - multiple exceptions if Java Mail gets mad
 	 */
-	public static void sendApplicationAlert(String recipient, String jobName, String jobId) throws Exception {
+	public static void sendApplicationAlert(String recipient, String jobName, String jobId, String address, String pass) throws Exception {
 		
 		System.out.println("attempting to send app alert email");
 		
@@ -32,8 +32,8 @@ public class ApplicationAlertMail {
 		properties.put("mail.smtp.port", "587");
 		
 		//gmail account credentials
-		String myEmailAccount = "burntoutnotifications@gmail.com";
-		String password = "burningup22";
+		String myEmailAccount = address;
+		String password = pass;
 		
 		//create the session in gmail
 		Session session = Session.getInstance(properties, new Authenticator() {
