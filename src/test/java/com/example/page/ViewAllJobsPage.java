@@ -18,7 +18,7 @@ public class ViewAllJobsPage {
 	@FindBy(tagName = "table")
 	public WebElement table;
 	
-	@FindBy(xpath = "//button[@id='4']")
+	@FindBy(xpath = "//button[@id='183']")
 	public WebElement applyButton;
 	
 	/*@FindBy(xpath = "//table/tbody/tr[1]/td[4]\"")

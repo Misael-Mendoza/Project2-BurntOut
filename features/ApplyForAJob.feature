@@ -13,6 +13,10 @@ Feature: Applying For A Job
 		When the candidate inputs "<anotherJobTitle>" to the Search bar
 		Then the job postings corresponding to the search show up
 		And the candidate clears the Search Bar
+		When the candidate inputs the 3rd "<3rdTitle>" to the Search bar
+		When the candidate inputs the 4th "<4thTitle>" to the Search bar
+		Then the job postings corresponding to another search show up
+		And the candidate clears the Search Bar again
 		When the candidate clicks the Apply button for the chosen posting
 		Then the candidate is redirected to the Submit Application screen
 		But the only information the candidate provides is the resume
@@ -20,6 +24,6 @@ Feature: Applying For A Job
 		Then the application is submitted
 		
 	Examples: 
-		|username        |password     |	jobTitle  | 	anotherJobTitle  |
-		|olgamelnikoff	 |olgamelnikoff|	J         |		a				 |
+		|username        |password     |	jobTitle  | 	anotherJobTitle  |	3rdTitle  | 	4thTitle  |
+		|olgamelnikoff	 |password	   |	J         |		a				 |  D		  |		e	  |
 		

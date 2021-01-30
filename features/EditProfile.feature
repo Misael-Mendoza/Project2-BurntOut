@@ -27,4 +27,4 @@ Feature: BurntOut Profile Edit
 	
 	Examples: 
 		|username      |password |newUsername |oldUsername   |
-		|johnjacobelli |password |johnjacob   |johnjacobelli |
+		|atversky	   |password |tversky     |atversky      |

@@ -95,6 +95,32 @@ public class ApplyForJobTests {
 	    this.vajp.clearInput();
 	    TimeUnit.SECONDS.sleep(5);
 	}
+	
+	@When("the candidate inputs the 3rd {string} to the Search bar")
+	public void the_candidate_inputs_the_3rd_to_the_search_bar(String string) throws InterruptedException {
+		 this.vajp.searchForJobByTitle(string);
+		 TimeUnit.SECONDS.sleep(3);
+		 TimeUnit.SECONDS.sleep(3);
+	}
+	
+	@When("the candidate inputs the 4th {string} to the Search bar")
+	public void the_candidate_inputs_the_4th_to_the_search_bar(String string) throws InterruptedException {
+		 this.vajp.searchForJobByTitle(string);
+		 TimeUnit.SECONDS.sleep(1);
+		 TimeUnit.SECONDS.sleep(2);
+	}
+
+	@Then("the job postings corresponding to another search show up")
+	public void the_job_postings_corresponding_to_another_search_show_up() throws InterruptedException {
+		TimeUnit.SECONDS.sleep(2);
+		TimeUnit.SECONDS.sleep(1);
+	}
+	@Then("the candidate clears the Search Bar again")
+	public void the_candidate_clears_the_search_bar_again() throws InterruptedException {
+	    this.vajp.clearInput();
+	    TimeUnit.SECONDS.sleep(3);
+	    TimeUnit.SECONDS.sleep(3);
+	}
 
 	@When("the candidate clicks the Apply button for the chosen posting")
 	public void the_candidate_clicks_the_apply_button_for_the_chosen_posting() throws InterruptedException {
