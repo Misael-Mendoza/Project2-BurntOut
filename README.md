@@ -28,72 +28,47 @@ BurntOut is an application used by companies to post job openings and candidates
 - Agile
 
 ## List of Features Implemented:
-- A user can sign up (create an account). There are two roles available: candidate and recruiter.
+- A user can sign up (create an account). There are two roles available: employee and employer.
 - The user can log in if correct combination of username and password is used.
 - If the user forgot their password, they can click the "Forgot Password?" link and indicate their email address. After that, a recovery code is sent to their email address that allows them to change their password.
 - The user can log out.
-- If the user role is Recruiter, then the following features are available: 
-  * The recruiter can create a job posting.
-  * The recruiter can see their own job postings.
-  * The recruiter can see all the applications submitted for their job postings and download the applicants' resumes.
-  * The recruiter can approve or reject applications.
-  * The recruiter can create a blog post and see blog posts of other users.
-  * The recruiter can see all the job postings.
-  * The recruiter can search for job postings by job title, by location, by company name or by industry.
-  * The recruiter can see other users' profiles (including their applicants' profiles).
-  * The recruiter can see and edit their own profile.
-- If the user role is Candidate, then the following features are available:
-  * The candidate can see all the job postings.
-  * The candidate can search for job postings by job title, by location, by company name or by industry.
-  * The candidate can apply for any job in the Job list.
-  * The candidate can see their own applications and their status.
-  * The candidate can create a blog post and see blog posts of other users.
-  * The candidate can see other users' profiles.
-  * The candidate can see and edit their own profile.
+- If the user role is Employer, then the following features are available: 
+  * The employer can create a job posting.
+  * The employer can see their own job postings.
+  * The employer can see all the applications submitted for their job postings and download the applicants' resumes.
+  * The employer can approve or reject applications.
+  * The employer can create a blog post and see blog posts of other users.
+  * The employer can see all the job postings.
+  * The employer can search for job postings by job title, by location, by company name or by industry.
+  * The employer can see other users' profiles (including their applicants' profiles).
+  * The employer can see and edit their own profile.
+- If the user role is Employee, then the following features are available:
+  * The employee can see all the job postings.
+  * The employee can search for job postings by job title, by location, by company name or by industry.
+  * The employee can apply for any job in the Job list.
+  * The employee can see their own applications and their status.
+  * The employee can create a blog post and see blog posts of other users.
+  * The employee can see other users' profiles.
+  * The employee can see and edit their own profile.
 - Even if the user is not logged in, they can still see all the job postings and search for job postings by job title, by location, by company name or by industry.
   
 ## To-do List:
-- Log out functionality
-- Registration functionality
-- Forgot Password feature
-- Sending an email with a temporary password upon registration
-- Password encryption
-- Add more security to the project, to prevent unauthorized access
+- Using Firebase for an enhanced security.
+- Messaging functionality (the users can message each other).
+- The users can follow each other.
+- The users can see the blog posts of the users they are following in their feed.
+- The users can upload their photos to their profile.
+- Each job posting can have tags, and users should be able to search for job postings by tags.
 
 ## How to set up / get started using it
-- git clone the project using the project URL
-- update the URL, username and password for the Database connection in the following file: com.example.dao.DAOConnection.java
-- start Main Driver as Java Application, it will start Javalin
-- Go to start page - http://localhost:7001/html/login.html
+- Go to this page: http://burntoutbucket.s3-website-us-east-1.amazonaws.com/.
+- Sign up as an employee or an employer.
+- Log in using your credentials.
+- Start using the application (please see the List of Features Implemented above for the functionality).
 
-## Usage of the project
-1. On the start page, enter "spacexdragon" as username and "password" as password
+## Contributors
+Team Lead: Darien Sosa.
+Team Members: Ryan Curley, Misael Mendoza, John Jacobelli, and Olga Melnikova.
 
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/01_LoginPage.png "Optional title")
-
-2. You will see the Employee screen:
-
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/02_Employee_Dashboard.png "Optional title")
-
-3. Hit "View Past Tickets" button:
-
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/03_Past_Tickets.png "Optional title")
-
-4. Go back and hit "Add Reimbursement Request" button, then fill out the form and hit "Submit Request":
-
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/04_Submit_New_Request.png "Optional title")
-
-5. You can reload the login page and enter "nectarine" as username and "password" as password. Then hit "View All Tickets" button:
-
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/05_Finance_Manager_Dashboard.png "Optional title")
-
-6. Then select "Pending" from the dropdown list:
-
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/06_View_All_Tickets.png "Optional title")
-
-7. It will direct you to the Pending Tickets page. You can then hit the "Approve" or "Reject" button.
-
-![Alt text](https://github.com/olgamelnikoff/project-1-revature/blob/master/src/main/resources/frontend/screenshots/07_Pending_Tickets.png "Optional title")
-
-## Contributors and License information
+## License information
 
