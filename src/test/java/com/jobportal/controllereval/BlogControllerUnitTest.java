@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +46,7 @@ public class BlogControllerUnitTest {
 	public void setUp() throws Exception{
 		User user = new User(9);
 		Date date = new Date(System.currentTimeMillis());
+		List<Blog> blogs = new ArrayList<>();
 		blog = new Blog(user,"Hello",date,"Hello World!");
 		blog2 = new Blog(user,"Hi",date,"hi again");
 		blogs.add(blog);
