@@ -70,5 +70,8 @@ BurntOut is an application used by companies to post job openings and candidates
 Team Lead: Darien Sosa.
 Team Members: Ryan Curley, Misael Mendoza, John Jacobelli, and Olga Melnikova.
 
+## Frontend Repository
+- Go to: https://github.com/Misael-Mendoza/Project2-BurntOut-Angular
+
 ## License information
 This project uses the following license: [Apache License 2.0](LICENSE)
